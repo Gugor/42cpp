@@ -54,6 +54,10 @@ int Account::getNbWithdrawals(void)
 {
 	return (_totalNbWithdrawals);
 }
+int Account::checkAmount(void) const
+{
+	return (_amount);
+}
 #pragma endregion
 
 #pragma region Display Methods
@@ -119,10 +123,5 @@ bool Account::makeWithdrawal(int withdrawal)
 		std::cout << "refused" << std::endl;
 		return false;
 	}
-}
-
-int Account::checkAmount(void) const
-{
-	return 0;
 }
 #pragma endregion
