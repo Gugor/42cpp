@@ -9,21 +9,14 @@ WHITE		:= \033[1;37m
 RESET		:= \033[1;0m
 
 
-NAME		:= war
+NAME		:= powersed
 
 CC			:= c++
 CFLAGS		:= -Wall -Wextra -Werror 
-VFLAGS		:= -std=c++98 -fsanitize=leak
-DFLAGS		:= -g 
+VFLAGS		:= -std=c++98 
+DFLAGS		:= -g -fsanitize=leak
 
-INCS		:= Weapon.hpp \
-				HumanA.hpp \
-				HumanB.hpp \
-
-SRCS		:= Weapon.cpp \
-				 HumanA.cpp \
-				 HumanB.cpp \
-				main.cpp
+SRCS		:= main.cpp 
 OBJS		:= $(SRCS:.cpp=.o)
 
 
@@ -36,6 +29,9 @@ $(NAME):: $(OBJS) $(INCS)
 %.o : %.cpp Makefile
 	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
 	$(CC) $(DFLAGS) $(CFLAGS) $(VFLAGS) -c $< -o $@
+
+test: $(NAME)
+	g++ $(DFLAGS) $(CFLAGS) $(VFLAGS) test.cpp -o test
 
 clean:
 	@rm -vf *.o
