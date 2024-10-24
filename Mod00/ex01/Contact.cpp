@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:43:30 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/10/24 17:10:28 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:09:10 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ Contact::~Contact()
 	return ;   
 }
 
-#pragma region Input Handling
 std::string Contact::_getinput(std::string lable)
 {
 	std::string line;
@@ -118,9 +117,7 @@ std::string Contact::_getPhone(std::string lable)
 	}
 	return (NULL);
 }
-#pragma endregion
 
-#pragma region Setters
 void Contact::createNew()	
 {
 	this->_name				= Contact::_getinput(std::string("Name: "));	
@@ -130,9 +127,7 @@ void Contact::createNew()
 	this->_phone 			= Contact::_getPhone(std::string("Phone: "));	
 	this->_favoritequote 	= Contact::_getinput(std::string("Favorite Quote: "));	
 }
-#pragma endregion
 
-#pragma region Getters
 std::string Contact::getName(void) const
 {
 	return (this->_name);
@@ -167,5 +162,4 @@ std::string Contact::getFavoriteQuote(void) const
 {
 	return (this->_favoritequote);
 }
-#pragma endregion
 

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:43:26 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/10/24 17:16:20 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:16:43 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void Phonebook::listContacts(void)
 void Phonebook::printContactByIndex(int indx)
 {
 	Contact *contact;
-	
+
+	if (indx < 0)	
+		indx = 0;
 	contact = &this->_contacts[indx];
 	std::cout << "_________________________________________" << std::endl;
 	std::cout << std::endl;
@@ -78,7 +80,8 @@ void Phonebook::printContactByIndex(int indx)
 
 void Phonebook::printSimpleContactByIndex(int indx)
 { 
-
+	if (indx < 0)
+		indx = 0;
 	std::cout << std::setw(9) << 1 + indx << "|";
 	std::cout << std::setw(9) << this->_fitToColumn(this->_contacts[indx].getName()) << "|";
 	std::cout << std::setw(9) << this->_fitToColumn(this->_contacts[indx].getSurname()) << "|";
@@ -101,8 +104,15 @@ void Phonebook::searchContact(void)
 	{
 		std::cout << BLD_WHITE << "\rSet contact index: " << RESET;
 		getline(std::cin, line);
-		indx = line[0] - 48;
-		if (isdigit(line[0]) && indx <= this->_amount)
+		if (!std::cin)
+			exit (2);
+		if (line.length() > 1 || !isdigit(line[0]))
+		{
+			std::cout << "Incorect input. Index should be a number between 0 and " << MAX_CONTACTS << std::endl;
+			continue ;
+		}
+		indx = std::atoi(line.c_str());
+		if (isdigit(line[0]) && indx <= (this->_amount % MAX_CONTACTS))
 		{
 			this->printContactByIndex(indx - 1);
 			return ;
@@ -110,7 +120,7 @@ void Phonebook::searchContact(void)
 		else
 		{
 			std::cout << std::endl;
-			std::cout << BLD_RED <<"Worng index. Please choose one form the table below." << RESET << std::endl;
+			std::cout << BLD_RED << "Worng index. Please choose one form the table below." << RESET << std::endl;
 			std::cout << std::endl;
 			this->listContacts();
 			std::cout << std::endl;
