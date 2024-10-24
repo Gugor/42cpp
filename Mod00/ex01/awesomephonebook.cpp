@@ -6,14 +6,12 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 21:04:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/10/20 18:53:00 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:14:52 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Phonebook.hpp"
 #include "Contact.hpp"
-
-using namespace AwesomePhonebook;
 
 int main (int ac, char **av)
 {
