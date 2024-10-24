@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 18:46:04 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/10/24 17:14:20 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:38:08 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ class Phonebook
 		Phonebook(void);
 		~Phonebook(void);
 		
-		void createMaxContacts(void);
 		void addContact(void);
 		void searchContact(void);
 		void exitPhonebook(void);
