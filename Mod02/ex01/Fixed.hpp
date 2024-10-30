@@ -1,13 +1,14 @@
 #ifndef FLOAT_H
 #define FLOAT_H
 
-#include <string>
-#include <iostream>
+# include <string>
+# include <iostream>
+# include <cmath>
 
 class Fixed
 {
 	private:
-		int _value;
+		int _integer;
 		const static int _fractions = 8;
 
 	public:
@@ -23,5 +24,6 @@ class Fixed
 		int getRawBits(void) const;
 		void setRawBits(const int raw);
 };
+std::ostream	&operator<<(std::ostream &out, const Fixed &val);
 
 #endif
