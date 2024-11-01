@@ -2,22 +2,25 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include "Fixed.hpp"
+# include "Fixed.hpp"
+# include <iostream>
+
 
 class Point
 {
 	private:
-		const Fixed _x;
-		const Fixed _y;
+		Fixed _x;
+		Fixed _y;
 	public:
-		Point();
+		Point(void);
 		Point(const Fixed x, const Fixed y);
 		Point(const Point &other);
-		Point operator=(const Point &other);
+		Point &operator=(const Point &other);
 		~Point();
 
-		Fixed getX(); 
-		Fixed getY(); 
-}
+		Fixed getX(void) const; 
+		Fixed getY(void) const; 
+		void show(std::string name);
+};
 
 #endif

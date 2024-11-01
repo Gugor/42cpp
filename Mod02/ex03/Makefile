@@ -9,7 +9,7 @@ WHITE		:= \033[1;37m
 RESET		:= \033[1;0m
 
 
-NAME		:= fixed 
+NAME		:= bsp 
 
 CC		:= c++
 #GCC		:= g++
@@ -17,9 +17,10 @@ CFLAGS		:= -Wall -Wextra -Werror
 VFLAGS		:= -std=c++98 
 DFLAGS		:= -g -fsanitize=leak
 
-INCS		:= Fixed.hpp 
+INCS		:= Fixed.hpp Point.hpp 
 SRCS		:= main.cpp \
-			Fixed.cpp
+			Fixed.cpp \
+			Point.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 
