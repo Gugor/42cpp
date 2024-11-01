@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:43:26 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/01 18:46:13 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:03:27 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,21 @@ void Phonebook::printSimpleContactByIndex(int indx)
 	std::cout << std::endl;
 }
 
+bool Phonebook::isCorrectIndex(const int indx, const int amount)
+{
+	if (amount < MAX_CONTACTS)
+	{
+		if (indx <= amount)
+			return (true);
+	}
+	else
+	{
+		if (indx <= MAX_CONTACTS)
+			return (true);
+	}
+	return (false);
+}
+
 void Phonebook::searchContact(void)
 {
 	std::string	line;
@@ -112,7 +127,7 @@ void Phonebook::searchContact(void)
 			continue ;
 		}
 		indx = std::atoi(line.c_str());
-		if (isdigit(line[0]) && ((indx - 1) <= (this->_amount % MAX_CONTACTS) || indx == MAX_CONTACTS))
+		if (isdigit(line[0]) && Phonebook::isCorrectIndex(indx, this->_amount))
 		{
 			if (indx == 0)
 				return ;

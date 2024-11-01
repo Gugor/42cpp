@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 18:46:04 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/01 18:41:33 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/01 20:00:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ class Phonebook
 		void listContacts(void);
 		void printContactByIndex(int indx);
 		void printSimpleContactByIndex(int indx);
+		static bool isCorrectIndex(const int indx, const int amount);
 }; 
 #endif
 
