@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 19:43:26 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/10/24 20:16:43 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:46:13 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,10 @@ void Phonebook::searchContact(void)
 			continue ;
 		}
 		indx = std::atoi(line.c_str());
-		if (isdigit(line[0]) && indx <= (this->_amount % MAX_CONTACTS))
+		if (isdigit(line[0]) && ((indx - 1) <= (this->_amount % MAX_CONTACTS) || indx == MAX_CONTACTS))
 		{
+			if (indx == 0)
+				return ;
 			this->printContactByIndex(indx - 1);
 			return ;
 		}
