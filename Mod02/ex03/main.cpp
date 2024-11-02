@@ -6,8 +6,6 @@ Fixed sign (Point p1, Point p2, Point p3)
     return (p1.getX() - p3.getX()) * (p2.getY() - p3.getY()) - (p2.getX() - p3.getX()) * (p1.getY() - p3.getY());
 }
 
-
-
 bool bsp( Point const a, Point const b, Point const c, Point const point)
 {
     Fixed d1, d2, d3;
@@ -18,7 +16,7 @@ bool bsp( Point const a, Point const b, Point const c, Point const point)
     d3 = sign(point, c, a);
 
     has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+    has_pos = (d1 >= 0) || (d2 >= 0) || (d3 >= 0);
 
     return !(has_neg && has_pos);
 }
@@ -69,11 +67,24 @@ int main()
 	K.show("K");
 	L.show("L");
 
-
 	if (bsp(I, J, K, L))
 		std::cout << "Point L is inside triangle" << std::endl;
 	else
 		std::cout << "Point L is NOT inside triangle" << std::endl;
+
+	std::cout << std::endl;	
+
+	Point M(0.2f, 0.2f);	
+
+	I.show("A");
+	J.show("B");
+	K.show("C");
+	M.show("M");
+
+	if (bsp(A, B, C, M))
+		std::cout << "Point M is inside triangle" << std::endl;
+	else
+		std::cout << "Point M is NOT inside triangle" << std::endl;
 
 	return (0);
 }
