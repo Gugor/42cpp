@@ -9,7 +9,7 @@ WHITE		:= \033[1;37m
 RESET		:= \033[1;0m
 
 
-NAME		:= claptrap 
+NAME		:= scavtrap 
 
 CC		:= c++
 #GCC		:= g++

@@ -3,29 +3,31 @@
 
 int main(void)
 {
-	ClapTrap bolts;	
-	ScavTrap beam("Beam");	
-	ScavTrap boltsV2;
+	ClapTrap lights;	
+	ScavTrap beam("Boom");	
+	ScavTrap lightsV2;
+	std::cout << std::endl;
+	lights = ClapTrap("Lights");
+	lightsV2 = lights;
+	std::cout << std::endl;
 
-	bolts = ClapTrap("Bolts");
-	boltsV2 = bolts;
-
-	bolts.attack("Bolts");
-	boltsV2.takeDamage(bolts.getAttackDamage());
-	std::cout << "> BoltsV2 supercharges go berserker. ";
-	boltsV2.setAttackDamage(8);
-	boltsV2.attack("Bolts");
-	bolts.takeDamage(boltsV2.getAttackDamage());
-	bolts.getHitPoints();
-	std::cout << "> BoltsV2 so quickly attacks again. ";
-	boltsV2.attack("Bolts");
-	bolts.takeDamage(boltsV2.getAttackDamage());
-	bolts.getHitPoints();
+	lights.attack("Lights");
+	lightsV2.takeDamage(lights.getAttackDamage());
+	std::cout << "> LightsV2 supercharges go berserker. ";
+	lightsV2.setAttackDamage(8);
+	lightsV2.attack("Lights");
+	lights.takeDamage(lightsV2.getAttackDamage());
+	lights.getHitPoints();
+	std::cout << "> LightsV2 so quickly attacks again. ";
+	lightsV2.attack("Lights");
+	lights.takeDamage(lightsV2.getAttackDamage());
+	lights.getHitPoints();
 	beam.setAttackDamage(3);
-	std::cout << "> Beam takes advantage of this carnage and attacks BoltsV2 from behind" << std::endl;
-	beam.attack("Bolts");
-	bolts.takeDamage(beam.getAttackDamage());
-	std::cout << "> Surprisingly has soon has BoltsV2 take damage, it's automatic repairing systems activate. " << std::endl;
-	bolts.beRepaired(1);
+	std::cout << "> Boom takes advantage of this carnage and attacks LightsV2 from behind" << std::endl;
+	beam.attack("Lights");
+	lights.takeDamage(beam.getAttackDamage());
+	std::cout << "> Surprisingly has soon has LightsV2 take damage, it's automatic repairing systems activate. " << std::endl;
+	lights.beRepaired(1);
 	std::cout << "> The screen goes black for a second and then display the letters: To be continued..." << std::endl;
+	std::cout << std::endl;
 }

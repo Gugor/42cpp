@@ -26,7 +26,7 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 		this->_hitPoints = other._hitPoints;
 		this->_energyPoints = other._energyPoints;
 		this->_attackDamage = other._attackDamage;
-		std::cout << "> " << this->_name << " has being assembled successfully form an old blueprint" << std::endl;
+		std::cout << "> " << this->_name << " has being assembled successfully from an old blueprint" << std::endl;
 	}
 	return (*this);
 }
@@ -38,11 +38,13 @@ ClapTrap::~ClapTrap(void)
 
 std::string ClapTrap::getName(void) const
 {
+	std::cout << "> My name is " << this->_name << "how coolt is having a name! " << std::endl;
 	return (this->_name);
 }
 
 unsigned int ClapTrap::getEnergy(void) const
 {
+	std::cout << "> " << this->_name << " has " << this->_energyPoints << " energy points" << std::endl;
 	return (this->_energyPoints);
 }
 
@@ -72,14 +74,14 @@ void ClapTrap::takeDamage(unsigned int amount)
 {
 	if (this->_isJunked())
 	{
-		std::cout << "> Don't boder, this ClapTrap has being emptied from every drop of oil! Shall we se again in the heaven of robots..." << std::endl;
+		std::cout << "\t> Don't boder, this ClapTrap has being emptied from every drop of oil! Shall we meet again in the Valhalla of robots..." << std::endl;
 		return ;
 	}
 	this->_hitPoints -= amount;
 	std::cout << "> " << this->_name << " has being attacked. Has suffered " << amount << " damage. Clunk!! a hollow sound echoes... " << std::endl;
 	if (this->_isJunked())
 	{
-		std::cout << "> " << this->_name << " is leaking oil every where, and falls like a plank to the ground. Doesn't seem could stand again..." << std::endl;
+		std::cout << "\t> " << this->_name << " is leaking oil every where, and falls like a plank to the ground. Doesn't seem it could stand again..." << std::endl;
 	}
 }
 
@@ -87,10 +89,10 @@ void ClapTrap::beRepaired(unsigned int amount)
 {	
 	if (this->_isJunked())
 	{
-		std::cout << "> This ClapTrap is beyond repaire! Has lost to much oil..." << std::endl;
+		std::cout << "> This ClapTrap is beyond repair! Has lost so much oil..." << std::endl;
 		return ;
 	}
-	std::cout << "> A sound of sparks, and wires being solded.";
+	std::cout << "> A sound of sparks, and wires being soldered.";
 	std::cout << this->_name << " has being repaired by " << amount;
 	std::cout << " hitPoints! bip bip" << std::endl;
 	this->_hitPoints += amount;
