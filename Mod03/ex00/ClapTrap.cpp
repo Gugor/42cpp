@@ -20,14 +20,13 @@ ClapTrap::ClapTrap(const std::string name)
 
 ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 {
-	if (this != &other)
-	{
-		this->_name = other._name;
-		this->_hitPoints = other._hitPoints;
-		this->_energyPoints = other._energyPoints;
-		this->_attackDamage = other._attackDamage;
-		std::cout << "> " << this->_name << " has being assembled successfully from an old blueprint" << std::endl;
-	}
+	if (this == &other)
+		return (*this);
+	this->_name = other._name;
+	this->_hitPoints = other._hitPoints;
+	this->_energyPoints = other._energyPoints;
+	this->_attackDamage = other._attackDamage;
+	std::cout << "> " << this->_name << " has being assembled successfully from an old blueprint" << std::endl;
 	return (*this);
 }
 

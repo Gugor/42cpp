@@ -9,7 +9,7 @@ WHITE		:= \033[1;37m
 RESET		:= \033[1;0m
 
 
-NAME		:= fragtrap 
+NAME		:= flagtrap 
 
 CC		:= c++
 #GCC		:= g++

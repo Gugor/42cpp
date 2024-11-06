@@ -1,16 +1,16 @@
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
-#include "FragTrap.hpp"
+#include "FlagTrap.hpp"
 
 int main(void)
 {
 	ClapTrap basic("Thunder");
 	ScavTrap Thunder; 
-	FragTrap Rusty ("Rusty");
+	FlagTrap Rusty ("Rusty");
 	std::cout << std::endl;
 	Thunder = basic;
 	std::cout << std::endl;
-	std::cout << "> ScravTap vs FragTrap, who is going to win?!" << std::endl;
+	std::cout << "> ScravTap vs FlagTrap, who is going to win?!" << std::endl;
 	std::cout << "> Lets check their status:" << std::endl;
 	Thunder.showStatus();
 	Rusty.showStatus();
