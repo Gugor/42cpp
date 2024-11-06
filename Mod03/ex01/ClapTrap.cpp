@@ -36,28 +36,6 @@ ClapTrap::~ClapTrap(void)
 	std::cout << "> " << this->_name << " has being disassembled and throwed to the junkyard..." << std::endl;
 }
 
-std::string ClapTrap::getName(void) const
-{
-	std::cout << "> My name is " << this->_name << "how coolt is having a name! " << std::endl;
-	return (this->_name);
-}
-
-unsigned int ClapTrap::getEnergy(void) const
-{
-	std::cout << "> " << this->_name << " has " << this->_energyPoints << " energy points" << std::endl;
-	return (this->_energyPoints);
-}
-
-void ClapTrap::setEnergy(unsigned int energy)
-{
-	this->_energyPoints = energy;
-}
-
-void ClapTrap::setDamage(unsigned int damage)
-{
-	this->_attackDamage = damage;
-}
-
 bool ClapTrap::_isJunked(void)
 {
 	if (this->_hitPoints <= 0)
@@ -67,6 +45,8 @@ bool ClapTrap::_isJunked(void)
 
 void ClapTrap::attack(const std::string &target)
 {
+	if (!this->_isJunked() && this->useEnergy())
+		return ;
 	std::cout << "> ClapTrap " << this->_name << " attacks " << target << ", causing " << this->_attackDamage << " points of damage!" << std::endl;
 }
 
@@ -74,38 +54,54 @@ void ClapTrap::takeDamage(unsigned int amount)
 {
 	if (this->_isJunked())
 	{
-		std::cout << "\t> Don't boder, this ClapTrap has being emptied from every drop of oil! Shall we meet again in the Valhalla of robots..." << std::endl;
+		std::cout << "> Don't boder, this ClapTrap has being emptied from every drop of oil! Shall we meet again in the heaven of robots..." << std::endl;
 		return ;
 	}
 	this->_hitPoints -= amount;
 	std::cout << "> " << this->_name << " has being attacked. Has suffered " << amount << " damage. Clunk!! a hollow sound echoes... " << std::endl;
 	if (this->_isJunked())
 	{
-		std::cout << "\t> " << this->_name << " is leaking oil every where, and falls like a plank to the ground. Doesn't seem it could stand again..." << std::endl;
+		std::cout << "> " << this->_name << " is leaking oil every where, and falls like a plank to the ground. Doesn't seems It could stand again..." << std::endl;
 	}
 }
 
 void ClapTrap::beRepaired(unsigned int amount)
 {	
+	if (!this->_isJunked() && !this->useEnergy()) 
+		return ;
 	if (this->_isJunked())
 	{
-		std::cout << "> This ClapTrap is beyond repair! Has lost so much oil..." << std::endl;
+		std::cout << "> This ClapTrap is beyond repaire! Has lost to much oil..." << std::endl;
 		return ;
 	}
-	std::cout << "> A sound of sparks, and wires being soldered.";
+	std::cout << "> A sound of sparks, and wires being solded.";
 	std::cout << this->_name << " has being repaired by " << amount;
 	std::cout << " hitPoints! bip bip" << std::endl;
 	this->_hitPoints += amount;
 }
 
-unsigned int ClapTrap::getAttackDamage(void) const
+unsigned int ClapTrap::getDamage(void) const
 {
 	return (this->_attackDamage);
 }
 
+std::string ClapTrap::getName(void) const
+{      
+        return (this->_name);
+}                                                                                                       
+       
+unsigned int ClapTrap::getEnergy(void) const
+{      
+        return (this->_energyPoints);
+}      
+       
+void ClapTrap::setEnergy(unsigned int energy)
+{      
+        this->_energyPoints = energy;
+}      
+
 int ClapTrap::getHitPoints(void) const
 {
-	std::cout << "> " << this->_name << " has " << this->_hitPoints << " hitpoints" << std::endl;
 	return (this->_hitPoints);
 }
 
@@ -114,4 +110,22 @@ void ClapTrap::setAttackDamage(unsigned int amount)
 	std::cout << "> "<< this->_name << " has change its attack damage to ";
 	std::cout << amount << std::endl;
 	this->_attackDamage = amount;
+}
+
+int ClapTrap::useEnergy(void)
+{
+	if (this->_energyPoints <= 0)
+	{
+		std::cout << "> "<< this->_name << "has no energy to even pay atention to your commands..." << std::endl;
+		return (0);
+	}
+	this->_energyPoints--;
+	return (1);
+}
+
+void ClapTrap::showStatus(void)
+{
+	std::cout << "\t> Unit id:\t" << this->getName() << std::endl;
+	std::cout << "\t> HitPoints:\t" << this->getHitPoints() << std::endl;
+	std::cout << "\t> EnergyPoints:\t" << this->getEnergy() << std::endl;
 }

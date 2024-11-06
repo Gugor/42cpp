@@ -19,18 +19,18 @@ class ClapTrap
 		ClapTrap &operator=(const ClapTrap &other);
 		~ClapTrap();
 
-		std::string getName(void) const;
-		unsigned int getEnergy(void) const;
-		unsigned int getAttackDamage(void) const;
-		int getHitPoints(void) const;
-
-		void setEnergy(unsigned int energy);
-		void setAttackDamage(unsigned int amount);
-		void setDamage(unsigned int damage);
-
-		virtual	void attack(const std::string &target);
+		void attack(const std::string &target);
 		void takeDamage(unsigned int amount);
 		void beRepaired(unsigned int amount);
+		int getHitPoints(void) const;
+		std::string getName(void) const;
+		unsigned int getEnergy(void) const;
+		unsigned int getDamage(void) const;
+		void setAttackDamage(unsigned int amount);
+		void setEnergy(unsigned int energy);
+		void setDamage(unsigned int damage);
+		int useEnergy(void);
+		void showStatus(void);
 };
 
 

@@ -25,7 +25,7 @@ ScavTrap &ScavTrap::operator=(const ClapTrap &other)
 		this->_name = other.getName();
 		this->_hitPoints = other.getHitPoints();
 		this->_energyPoints = other.getEnergy();
-		this->_attackDamage = other.getAttackDamage();
+		this->_attackDamage = other.getDamage();
 		std::cout << "> ScavTrap " << this->_name << " has being assembled successfully form an old blueprint" << std::endl;
 	}
 	return (*this);

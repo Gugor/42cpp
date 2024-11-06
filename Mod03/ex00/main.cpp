@@ -27,7 +27,7 @@ int main(void)
 	beam.attack("Bolts");
 	bolts.takeDamage(beam.getAttackDamage());
 	bolts.showStatus();
-	std::cout << "> Surprisingly has soon has BoltsV2 take damage, it's automatic repairing systems activate. " << std::endl;
+	std::cout << "> Surprisingly as soon as BoltsV2 takes damage, it's automatic repairing systems activates itself. " << std::endl;
 	boltsV2.beRepaired(1);
 	boltsV2.showStatus();
 	std::cout << "> The screen goes black for a second and then display the letters: To be continued..." << std::endl;

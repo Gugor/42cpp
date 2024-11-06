@@ -20,7 +20,7 @@ DFLAGS		:= -g -fsanitize=leak
 INCS		:= ClapTrap.hpp ScavTrap.hpp 
 SRCS		:= main.cpp \
 			ClapTrap.cpp \
-			ScavTrap.cpp
+			ScavTrap.cpp 
 OBJS		:= $(SRCS:.cpp=.o)
 
 
