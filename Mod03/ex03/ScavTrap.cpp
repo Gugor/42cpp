@@ -15,10 +15,10 @@ ScavTrap::ScavTrap(const std::string name)
 	this->_hitPoints = 100;
 	this->_energyPoints = 50;
 	this->_attackDamage = 20;
-	std::cout << "> ScavTrap" << name << " has being assembled!" << std::endl; 
+	std::cout << "> ScavTrap " << name << " has being assembled!" << std::endl; 
 }
 
-ScavTrap &ScavTrap::operator=(const ClapTrap &other)
+ScavTrap &ScavTrap::operator=(const ScavTrap &other)
 {
 	if (this != &other)
 	{

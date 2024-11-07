@@ -104,11 +104,16 @@ int ClapTrap::getHitPoints(void) const
 	return (this->_hitPoints);
 }
 
-void ClapTrap::setAttackDamage(unsigned int amount)
+void ClapTrap::setDamage(unsigned int amount)
 {
 	std::cout << "> "<< this->_name << " has change its attack damage to ";
 	std::cout << amount << std::endl;
 	this->_attackDamage = amount;
+}
+
+void ClapTrap::setName(std::string name)
+{
+	this->_name = name;
 }
 
 int ClapTrap::useEnergy(void)
@@ -128,3 +133,4 @@ void ClapTrap::showStatus(void)
 	std::cout << "\t> HitPoints:\t" << this->getHitPoints() << std::endl;
 	std::cout << "\t> EnergyPoints:\t" << this->getEnergy() << std::endl;
 }
+

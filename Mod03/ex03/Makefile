@@ -9,19 +9,20 @@ WHITE		:= \033[1;37m
 RESET		:= \033[1;0m
 
 
-NAME		:= flagtrap 
+NAME		:= diamondtrap 
 
 CC		:= c++
 #GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror 
 VFLAGS		:= -std=c++98 
-DFLAGS		:= -g -fsanitize=leak
+DFLAGS		:= -g -fsanitize=leak -Wshadow
 
 INCS		:= ClapTrap.hpp ScavTrap.hpp FragTrap.hpp 
 SRCS		:= main.cpp \
 			ClapTrap.cpp \
 			ScavTrap.cpp \
-			FragTrap.cpp
+			FragTrap.cpp \
+			DiamondTrap.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 

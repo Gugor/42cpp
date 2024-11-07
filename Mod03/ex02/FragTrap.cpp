@@ -36,10 +36,6 @@ FragTrap::~FragTrap(void)
 	std::cout << "> FragTrap " << this->_name << " has being disassembled and throwed to the junkyard..." << std::endl;
 }
 
-void FragTrap::attack(const std::string &target)
-{
-        std::cout << "> SrcavTrap " << this->_name << " attacks " << target << ", causing " << this->_attackDamage << " points of damage!" << std::endl;
-}
 
 void FragTrap::highFivesGuys(void)
 {

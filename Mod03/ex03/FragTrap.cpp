@@ -1,24 +1,24 @@
-#include "FlagTrap.hpp"
+#include "FragTrap.hpp"
 
-FlagTrap::FlagTrap(void)
+FragTrap::FragTrap(void)
 {
-	this->_name = "FlagTrap";
+	this->_name = "FragTrap";
 	this->_hitPoints = 100;
 	this->_energyPoints = 100;
 	this->_attackDamage = 30;
-	std::cout << "> A new FlagTrap has being assembled! poor him has no name..." << std::endl; 
+	std::cout << "> A new FragTrap has being assembled! poor him has no name..." << std::endl; 
 }
 
-FlagTrap::FlagTrap(const std::string name)
+FragTrap::FragTrap(const std::string name)
 {
 	this->_name = name;
 	this->_hitPoints = 100;
 	this->_energyPoints = 100;
 	this->_attackDamage = 30;
-	std::cout << "> FlagTrap" << name << " has being assembled!" << std::endl; 
+	std::cout << "> FragTrap " << name << " has being assembled!" << std::endl; 
 }
 
-FlagTrap &FlagTrap::operator=(const ClapTrap &other)
+FragTrap &FragTrap::operator=(const FragTrap &other)
 {
 	if (this == &other)
 		return (*this);
@@ -26,21 +26,16 @@ FlagTrap &FlagTrap::operator=(const ClapTrap &other)
 	this->_hitPoints = other.getHitPoints();
 	this->_energyPoints = other.getEnergy();
 	this->_attackDamage = other.getDamage();
-	std::cout << "> FlagTrap " << this->_name << " has being assembled successfully form an old blueprint" << std::endl;
+	std::cout << "> FragTrap " << this->_name << " has being assembled successfully form an old blueprint" << std::endl;
 	return (*this);
 }
 
-FlagTrap::~FlagTrap(void)
+FragTrap::~FragTrap(void)
 {
-	std::cout << "> FlagTrap " << this->_name << " has being disassembled and throwed to the junkyard..." << std::endl;
+	std::cout << "> FragTrap " << this->_name << " has being disassembled and throwed to the junkyard..." << std::endl;
 }
 
-void FlagTrap::attack(const std::string &target)
+void FragTrap::highFivesGuys(void)
 {
-        std::cout << "> SrcavTrap " << this->_name << " attacks " << target << ", causing " << this->_attackDamage << " points of damage!" << std::endl;
-}
-
-void FlagTrap::highFivesGuys(void)
-{
-	std::cout << "> FlagTrap " << this->_name << " rises its robotic arm showing the palm. High Fives! he says" << std::endl;
+	std::cout << "> FragTrap " << this->_name << " rises its robotic arm showing the palm. High Fives! he says" << std::endl;
 }
