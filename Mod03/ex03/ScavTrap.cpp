@@ -9,6 +9,16 @@ ScavTrap::ScavTrap(void)
 	std::cout << "> A new ScavTrap has being assembled! poor him has no name..." << std::endl; 
 }
 
+ScavTrap::ScavTrap(const ScavTrap &other) : ClapTrap(other)
+{
+	this->_name = other.getName();
+	if (this == &other)
+	{
+		*this = other;
+	}
+	std::cout << "> ScavTrap " << this->_name << " has being DEEP assembled successfully form an old blueprint" << std::endl;
+}
+
 ScavTrap::ScavTrap(const std::string name)
 {
 	this->_name = name;
@@ -18,7 +28,7 @@ ScavTrap::ScavTrap(const std::string name)
 	std::cout << "> ScavTrap " << name << " has being assembled!" << std::endl; 
 }
 
-ScavTrap &ScavTrap::operator=(const ScavTrap &other)
+ScavTrap &ScavTrap::operator=(const ClapTrap &other)
 {
 	if (this != &other)
 	{

@@ -1,5 +1,5 @@
 BLACK		:= \033[1;30m
-RED			:= \033[1;31m
+RED		:= \033[1;31m
 GREEN		:= \033[1;32m
 YELLOW		:= \033[1;33m
 BLUE		:= \033[1;34m
@@ -9,10 +9,11 @@ WHITE		:= \033[1;37m
 RESET		:= \033[1;0m
 
 
-NAME		:= fragtrap 
+NAME		:= fragtrap
+NAME_TEST	:= $(NAME)-DEBUG 
 
 CC		:= c++
-#GCC		:= g++
+GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror 
 VFLAGS		:= -std=c++98 
 DFLAGS		:= -g -fsanitize=leak
@@ -38,12 +39,13 @@ $(NAME):: $(OBJS) $(INCS)
 clean:
 	@rm -vf *.o
 
-#test:: $(OBJS) $(INCS)
-#	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
-#	$(GCC) $(DFLAGS) $(CFLAGS) $(OBJS) $(VFLAGS) -o $(NAME)
+test:: $(OBJS) $(INCS)
+	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
+	$(GCC) $(DFLAGS) $(CFLAGS) $(OBJS) $(VFLAGS) -o $(NAME_TEST)
 
 fclean: clean
 	@rm -vf $(NAME)
+	@rm -vf $(NAME_TEST)
 
 re: fclean all
 	@echo "\n==========================================="

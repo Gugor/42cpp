@@ -12,7 +12,7 @@ RESET		:= \033[1;0m
 NAME		:= scavtrap 
 
 CC		:= c++
-#GCC		:= g++
+GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror 
 VFLAGS		:= -std=c++98 
 DFLAGS		:= -g -fsanitize=leak
@@ -37,9 +37,9 @@ $(NAME):: $(OBJS) $(INCS)
 clean:
 	@rm -vf *.o
 
-#test:: $(OBJS) $(INCS)
-#	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
-#	$(GCC) $(DFLAGS) $(CFLAGS) $(OBJS) $(VFLAGS) -o $(NAME)
+test:: $(OBJS) $(INCS)
+	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
+	$(GCC) $(DFLAGS) $(CFLAGS) $(OBJS) $(VFLAGS) -o $(NAME)
 
 fclean: clean
 	@rm -vf $(NAME)
