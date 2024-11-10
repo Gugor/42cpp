@@ -44,6 +44,6 @@ int main(void)
 		}
 	}
 	{
-		Animal animal;
+		//Animal animal;
 	}
 }

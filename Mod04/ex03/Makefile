@@ -18,12 +18,12 @@ CFLAGS		:= -Wall -Wextra -Werror
 VFLAGS		:= -std=c++98 
 DFLAGS		:= -g -fsanitize=leak -Wshadow
 
-INCS		:= Animal.hpp Dog.hpp Cat.hpp Brain.hpp 
+INCS		:= AMateria.hpp IMateriaSource.hpp ICharacter.hpp
 SRCS		:= main.cpp \
-			Animal.cpp \
-			Dog.cpp \
-			Cat.cpp \
-			Brain.cpp
+			AMateria.cpp \
+			ICharacter.cpp \
+			ImateriaSource.cpp
+
 OBJS		:= $(SRCS:.cpp=.o)
 
 
