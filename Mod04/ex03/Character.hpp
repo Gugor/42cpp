@@ -10,7 +10,7 @@ class Character
 	private:
 		std::string _name;
 		AMateria *_invetory[MATS_MX];
-		int _idxInventory;
+		int _matsEquiped;
 	public:
 		Character(void);
 		Character(std::string name);
@@ -22,9 +22,6 @@ class Character
 		void equip(AMateria *m);
 		void unequip(int idx);
 		void use(int idx, Icharacter &target);
-		AMateria &getInventoryMateria(int indx);
-		void aquireMateria(AMateria &mat, int indx);
-
 };
 
 endif

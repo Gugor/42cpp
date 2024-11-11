@@ -24,6 +24,13 @@ AMateria &AMateria::operator=(const AMateria &other)
 
 AMateria::~AMateria(void) {}
 
+AMateria *AMateria::clone() const
+{
+	if (!this)
+		return ;
+	return (new Materia(this));
+}
+
 void AMateria::use(ICharacter &target)
 {
 	std::cout << this->ICharacter::getName() << " cast an undefined materia onto " << other->getName() << std::endl; 
