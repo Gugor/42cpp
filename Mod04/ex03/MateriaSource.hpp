@@ -15,11 +15,11 @@ class MateriaSource
 		MateriaSource(void);
 		MateriaSource(const IMateriaSource &other);
 		IMateriaSource &operator=(const IMateriaSource &other);
-		~IMateriaSource(void);
-		void learnMateria(AMateria*);
+		~MateriaSource(void);
+		void learnMateria(AMateria *mat);
 		AMateria* createMateria(std::string const &type);
+		AMateria &getMateria(int indx) const;
 		unsigned int getSize() const;
-		AMateria *getMateria(int indx);
 };
 
 #endif

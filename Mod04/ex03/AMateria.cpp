@@ -36,6 +36,8 @@ void AMateria::use(ICharacter &target)
 	std::cout << this->ICharacter::getName() << " cast an undefined materia onto " << other->getName() << std::endl; 
 }
 
-
-
+std::string const &getType() const
+{
+	return (this->_type);
+}
 

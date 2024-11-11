@@ -7,21 +7,21 @@
 
 class Character
 {
-	private:
-		std::string _name;
-		AMateria *_invetory[MATS_MX];
-		int _matsEquiped;
 	public:
 		Character(void);
 		Character(std::string name);
 		Character(const ICharacter &other);
-		Character &operator=(const Icharacter &other);
+		Character &operator=(const ICharacter &other);
 		~Character(void);
 	
 		std::string const &getName(void) const;
 		void equip(AMateria *m);
 		void unequip(int idx);
-		void use(int idx, Icharacter &target);
+		void use(int idx, ICharacter &target);
+	private:
+		std::string _name;
+		int _matsEquiped;
+		AMateria *_invetory[MATS_MX];
 };
 
-endif
+#endif

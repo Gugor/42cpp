@@ -18,11 +18,21 @@ CFLAGS		:= -Wall -Wextra -Werror
 VFLAGS		:= -std=c++98 
 DFLAGS		:= -g -fsanitize=leak -Wshadow
 
-INCS		:= AMateria.hpp IMateriaSource.hpp ICharacter.hpp
+INCS		:= AMateria.hpp \
+			ICharacter.hpp \
+			Character.hpp \
+			IMateriaSource.hpp\
+			MateriaSource.hpp\
+			Ice.hpp \
+			Cure.hpp
 SRCS		:= main.cpp \
 			AMateria.cpp \
 			ICharacter.cpp \
-			ImateriaSource.cpp
+			Character.cpp \
+			IMateriaSource.cpp \
+			MateriaSource.cpp \
+			Ice.cpp \
+			Cure.cpp
 
 OBJS		:= $(SRCS:.cpp=.o)
 
