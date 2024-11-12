@@ -4,7 +4,6 @@ Harl::Harl(void)
 {
 	std::cout << "> Harl has just born. Ready to secretly dominate the human race!";
 	std::cout << std::endl;
-	std::cout << std::endl;
 	return ;
 }
 Harl::~Harl(void)

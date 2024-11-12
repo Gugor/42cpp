@@ -9,6 +9,7 @@ int main(int ac, char **av)
 		level = "DEBUG";
 	else
 		level = std::string(av[1]);
+	std::cout << std::endl;
 	harl.complain(level);	
 	return (0);
 }
