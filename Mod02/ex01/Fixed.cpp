@@ -5,12 +5,12 @@ Fixed::Fixed(void) : _integer(0)
 	std::cout << "Default constructor called" << std::endl;
 }
 
-Fixed::Fixed(const int num) : _integer(num << (_fractions << 1))
+Fixed::Fixed(const int num) : _integer(num << _fractions)
 {
 	std::cout << "Int constructor called" << std::endl;
 }
 
-Fixed::Fixed(const float num) : _integer(num * (1 << (_fractions << 1)))
+Fixed::Fixed(const float num) : _integer(roundf(num * (1 << _fractions)))
 {
 	std::cout << "Float constructor called" << std::endl;
 }
@@ -37,12 +37,12 @@ Fixed::~Fixed(void)
 
 int Fixed::toInt(void) const
 {
-	return (this->_integer >> (this->_fractions << 1));
+	return (this->_integer >> this->_fractions);
 }
 
 float Fixed::toFloat(void) const
 {
-	return (this->_integer / (float)(1 << (this->_fractions << 1)));
+	return (this->_integer / (float)(1 << this->_fractions));
 }
 
 int Fixed::getRawBits(void) const

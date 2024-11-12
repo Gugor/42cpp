@@ -15,7 +15,7 @@ CC		:= c++
 #GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror 
 VFLAGS		:= -std=c++98 
-DFLAGS		:= -g -fsanitize=leak
+DFLAGS		:= -g -fsanitize=leak -pedantic
 
 INCS		:= Fixed.hpp 
 SRCS		:= main.cpp \
