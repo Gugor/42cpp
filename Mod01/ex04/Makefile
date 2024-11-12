@@ -11,7 +11,7 @@ RESET		:= \033[1;0m
 
 NAME		:= powersed
 
-CC			:= c++
+CC			:= g++
 CFLAGS		:= -Wall -Wextra -Werror 
 VFLAGS		:= -std=c++98 
 DFLAGS		:= -g -fsanitize=leak

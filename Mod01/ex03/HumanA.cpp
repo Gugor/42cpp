@@ -3,7 +3,6 @@
 HumanA::HumanA(std::string name, Weapon &weapon) : _name(name), _weapon(weapon)
 {
 	std::cout << "> " << this->_name << " has born!" << std::endl;
-	
 }
 
 HumanA::~HumanA()
