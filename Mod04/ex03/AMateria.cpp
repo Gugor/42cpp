@@ -1,4 +1,5 @@
 #include "AMateria.hpp"
+#include "ICharacter.hpp"
 
 AMateria::AMateria(const AMateria &other)
 {
@@ -7,6 +8,8 @@ AMateria::AMateria(const AMateria &other)
 		*this = other;
 	}
 }
+
+AMateria::AMateria(void){}
 
 AMateria::AMateria(std::string const &type)
 {
@@ -24,19 +27,12 @@ AMateria &AMateria::operator=(const AMateria &other)
 
 AMateria::~AMateria(void) {}
 
-AMateria *AMateria::clone() const
+void AMateria::use(int indx, ICharacter &target)
 {
-	if (!this)
-		return ;
-	return (new Materia(this));
+	// std::cout << this->ICharacter::getName() << " cast an undefined materia onto " << other->getName() << std::endl; 
 }
 
-void AMateria::use(ICharacter &target)
-{
-	std::cout << this->ICharacter::getName() << " cast an undefined materia onto " << other->getName() << std::endl; 
-}
-
-std::string const &getType() const
+std::string const &AMateria::getType(void) const
 {
 	return (this->_type);
 }
