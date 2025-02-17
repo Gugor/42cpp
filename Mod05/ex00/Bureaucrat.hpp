@@ -4,14 +4,10 @@
 
 # include <iostream>
 # include <string>
+# include <exception>
 
 class Bureaucrat 
 {
-	private:
-		const std::string	_name;
-		int			_grade;
-		static const int	GradeTooHighException = 500;
-		static const int	GradeTooLowException = 505;
 	public:
 		Bureaucrat(void);
 		Bureaucrat(const std::string name, int grade);
@@ -23,9 +19,25 @@ class Bureaucrat
 		int getGrade(void) const;
 		void incrementGrade(void);
 		void decrementGrade(void);
+	   	class GradeTooHighException : public std::exception
+		{
+			public:
+				virtual const char *what() const throw(); 
+				virtual ~GradeTooHighException() throw() {}
+		};
+
+		class GradeTooLowException : public std::exception
+		{
+			public:
+				virtual const char *what() const throw(); 
+				virtual ~GradeTooLowException() throw() {}
+		};
+	private:
+		const std::string		_name;
+		int				_grade;
+
 };
 
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &other);
-
 
 #endif

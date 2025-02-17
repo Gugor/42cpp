@@ -15,9 +15,9 @@ int main(void)
 		{
 			Steve.incrementGrade();
 		}
-		catch (const int e)
+		catch (std::exception &e)
 		{
-			std::cerr << "X Error " << e << ": " << Steve << " not possible to increment grade" << std::endl;	
+			std::cerr << "X Error " << e.what() << ": " << Steve << " not possible to increment grade" << std::endl;	
 		}
 
 		std::cout << std::endl;
@@ -26,9 +26,9 @@ int main(void)
 		{
 			An.decrementGrade();
 		}
-		catch (const int e)
+		catch (std::exception &e)
 		{
-			std::cerr << "X Error " << e << ": " << An << " not possible to increment grade" << std::endl;	
+			std::cerr << "X Error " << e.what() << ": " << An << " not possible to increment grade" << std::endl;	
 		}
 
 		std::cout << std::endl;
@@ -36,11 +36,11 @@ int main(void)
 		try
 		{
 			SteveCpy.decrementGrade();
-			std::cout << ":: " << SteveCpy << "has being degraded." << Steve << " could not permit to have such a competitor" << std::endl;
+			std::cout << ":: " << SteveCpy << " has being degraded. " << Steve << " could not permit to have such a competitor" << std::endl;
 		}
-		catch (const int e)
+		catch (std::exception &e)
 		{
-			std::cerr << "X Error " << e << ": " << SteveCpy << " not possible to increment grade" << std::endl;	
+			std::cerr << "X Error " << e.what() << ": " << SteveCpy << " not possible to increment grade" << std::endl;	
 		}
 		std::cout << std::endl;
 

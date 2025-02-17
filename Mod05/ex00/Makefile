@@ -14,7 +14,7 @@ CC		:= c++
 GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -std=c++98
-DEBFLAGS	:= -g -fsanitize=Address
+DEBFLAGS	:= -g -fsanitize=address
 
 INCS		:= Bureaucrat.hpp
 SRCS		:= main.cpp Bureaucrat.cpp
