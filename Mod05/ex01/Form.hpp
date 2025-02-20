@@ -5,14 +5,17 @@ class Form
 {
 	public:
 		Form(void);
-		Form(const std::string name, const int permLevel);
+		Form(const std::string name, const int grade);
 		Form(const Form &other);
 		Form &operator=(const Form &other);
 		~Form(void);
+
 		std::string &getName(void) const;
+		int			getExecGradeRequired(void) const;
+
 		bool	IsSigned(void) const;
-		void	beSigned(const Bureaucrat &b) const;
-		void	setPermissionLevel(int grade);
+		bool	beSigned(const Bureaucrat &b);
+		void	setGadeExecRequired(int grade);
 
                 class GradeTooHighException : public std::exception
                 {
@@ -32,8 +35,10 @@ class Form
 	private:
 		const std:string _name;
 		bool		_isSigned;
-		const int		_permissionLevel;
+		const int		_gradeExecRequired;
 
 };
+
+std::ostream &operato<<(std::ostream &out, const Form &other);
 
 #endif
