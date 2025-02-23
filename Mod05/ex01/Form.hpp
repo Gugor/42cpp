@@ -1,6 +1,12 @@
 #ifndef FORM_H
 # define FORM_H
 
+# include <iostream>
+# include <string>
+# include <exception>
+
+class Bureaucrat;
+
 class Form
 {
 	public:
@@ -10,35 +16,34 @@ class Form
 		Form &operator=(const Form &other);
 		~Form(void);
 
-		std::string &getName(void) const;
-		int			getExecGradeRequired(void) const;
+		const std::string 	&getName(void) const;
+		int					getExecGradeRequired(void) const;
+		bool				IsSigned(void) const;
+		bool				beSigned(const Bureaucrat &b);
+		void				setGradeExecRequired(int grade);
 
-		bool	IsSigned(void) const;
-		bool	beSigned(const Bureaucrat &b);
-		void	setGadeExecRequired(int grade);
+		class GradeTooHighException : public std::exception
+		{
+			public:
+					virtual const char *what() const throw();
+					virtual ~GradeTooHighException() throw() {}
+		};
 
-                class GradeTooHighException : public std::exception
-                {
-                        public:
-                                virtual const char *what() const throw();
-                                virtual ~GradeTooHighException() throw() {}
-                };
-
-                class GradeTooLowException : public std::exception
-                {
-                        public:
-                                virtual const char *what() const throw();
-                                virtual ~GradeTooLowException() throw() {}
-                };
+		class GradeTooLowException : public std::exception
+		{
+			public:
+					virtual const char *what() const throw();
+					virtual ~GradeTooLowException() throw() {}
+		};
 
 
 	private:
-		const std:string _name;
-		bool		_isSigned;
-		const int		_gradeExecRequired;
+		const std::string	_name;
+		bool				_isSigned;
+		const int			_gradeExecRequired;
+		std::string			_signedBy;
 
 };
 
-std::ostream &operato<<(std::ostream &out, const Form &other);
-
+std::ostream &operator<<(std::ostream &out, const Form &other);
 #endif

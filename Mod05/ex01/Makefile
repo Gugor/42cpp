@@ -16,8 +16,8 @@ CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
-INCS		:= Bureaucrat.hpp
-SRCS		:= main.cpp Bureaucrat.cpp
+INCS		:= Bureaucrat.hpp Form.hpp
+SRCS		:= main.cpp Bureaucrat.cpp Form.cpp
 
 
 OBJS		:= $(SRCS:.cpp=.o)

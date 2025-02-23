@@ -22,7 +22,10 @@ Bureaucrat::Bureaucrat(const std::string name, int grade) : _name(name)
 
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &other)
 {
-	out << other.getName() << ", bureaucrat grade " << other.getGrade();
+	if (other.getName().empty())
+		out << "Undefined bureaucrat grade " << other.getGrade();
+	else
+		out << other.getName() << ", bureaucrat grade " << other.getGrade();
 	return (out);
 }
 
@@ -36,7 +39,7 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
     return "Grade too low!";
 }
 
-Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
+Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) 
 {
 	if (this != &other)
 	{
@@ -48,7 +51,7 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
 
 Bureaucrat::~Bureaucrat(void)
 {
-	std::cout << ":: Some will rejoice when they'll know that " << *this << "has left the ranks of paperworkers. The bureaucrats in the other hand are delight by the occasion of having to fill more boting forms. All is about perspective" << std::endl;
+	std::cout << ":: Some will rejoice when they'll know that " << *this << " has left the ranks of paperworkers. The bureaucrats in the other hand are delight by the occasion of having to fill more boring forms. All is about perspective" << std::endl;
 }
 
 const std::string &Bureaucrat::getName(void) const
@@ -66,7 +69,10 @@ void	Bureaucrat::incrementGrade(void)
 	if (this->_grade <= 1)
 		throw GradeTooHighException();
 	this->_grade--;
-	std::cout << ":: " << this->_name << "has step UP in the breaucracy leader" << std::endl;
+	if (this->_name.empty())
+		std::cout << ":: Undefined has step UP in the breaucracy leader" << std::endl;
+	else
+		std::cout << ":: " << this->_name << "has step UP in the breaucracy leader" << std::endl;
 }
 
 void	Bureaucrat::decrementGrade(void)
@@ -74,6 +80,15 @@ void	Bureaucrat::decrementGrade(void)
 	if (this->_grade >= 150)
 		throw GradeTooLowException();
 	this->_grade++;
-	std::cout << ":: " << this->_name << "has step DOWN in the breaucracy leader" << std::endl;
+	if (this->_name.empty())
+		std::cout << ":: Undefined has step DOWN in the breaucracy leader" << std::endl;
+	else
+		std::cout << ":: " << this->_name << "has step DOWN in the breaucracy leader" << std::endl;
+}
+
+int Bureaucrat::signForm(Form &form)
+{
+    form.beSigned(*this);
+    return 0;
 }
 
