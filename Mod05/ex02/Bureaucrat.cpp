@@ -3,29 +3,30 @@
 
 Bureaucrat::Bureaucrat(void) : _name("Anonimous Bureaucrat")
 {
-	this->_grade 	= 150;
+	this->_signGrade 	= 150;
 	std::cout << ":: An " << this->_name << " has join to the humonguous lower lines of whom devote their lives to paperwork and ink" << std::endl;
 }
 
-Bureaucrat::Bureaucrat(const std::string name, int grade) : _name(name)
+Bureaucrat::Bureaucrat(const std::string name, const int grade, const int exec) : _name(name)
 {
-	if (grade > 150)
+	if (grade > 150 || exec > 150)
 		throw GradeTooLowException();
-	else if(grade < 1)
+	else if(grade < 1 || exec < 1)
 		throw GradeTooHighException();
 	else
 	{
-		this->_grade 	= grade;
-		std::cout << ":: " << this->_name << " has join to the humonguous lines of whom devote their lives to paperwork and ink, with grade:" << this->_grade << std::endl;
+		this->_signGrade 	= grade;
+		this->_execGrade 	= exec;
+		std::cout << ":: " << this->_name << " has join to the humonguous lines of whom devote their lives to paperwork and ink, with " << this->_signGrade << "/" << this->_execGrade << " for sign and execution levels." <<  std::endl;
 	}
 }
 
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &other)
 {
 	if (other.getName().empty())
-		out << "Undefined bureaucrat grade " << other.getGrade();
+		out << "Undefined bureaucrat grade " << other.getSignGrade();
 	else
-		out << other.getName() << ", bureaucrat grade " << other.getGrade();
+		out << other.getName() << ", bureaucrat grade " << other.getSignGrade();
 	return (out);
 }
 
@@ -43,7 +44,7 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
 {
 	if (this != &other)
 	{
-		this->_grade	= other.getGrade();
+		this->_signGrade	= other.getSignGrade();
 		std::cout << ":: " << *this << ", is a deep copy of some other Bureaucrat" << std::endl;
 	}
 	return (*this);
@@ -59,27 +60,27 @@ const std::string &Bureaucrat::getName(void) const
 	return (this->_name);
 }
 
-int Bureaucrat::getGrade(void) const
+int Bureaucrat::getSignGrade(void) const
 {
-	return (this->_grade);
+	return (this->_signGrade);
 }
 
 void	Bureaucrat::incrementGrade(void)
 {
-	if (this->_grade <= 1)
+	if (this->_signGrade <= 1)
 		throw GradeTooHighException();
-	this->_grade--;
+	this->_signGrade--;
 	if (this->_name.empty())
 		std::cout << ":: Undefined has step UP in the breaucracy leader" << std::endl;
 	else
-		std::cout << ":: " << this->_name << "has step UP in the breaucracy leader" << std::endl;
+		std::cout << ":: " << this->_name << " has step UP in the breaucracy leader" << std::endl;
 }
 
 void	Bureaucrat::decrementGrade(void)
 {
-	if (this->_grade >= 150)
+	if (this->_signGrade >= 150)
 		throw GradeTooLowException();
-	this->_grade++;
+	this->_signGrade++;
 	if (this->_name.empty())
 		std::cout << ":: Undefined has step DOWN in the breaucracy leader" << std::endl;
 	else
@@ -94,13 +95,10 @@ int Bureaucrat::signForm(Form &form)
 
 void Bureaucrat::executeForm(Form const &form)
 {
-	if (!form.IsSigned())
-		std::cout << "Form " << form << " is not signed, therefore cannot be executed." << std::endl;
-	else if (form.getGrade() < this->_grade)
-		std::cout << *this << " has not enough grade level to execute this form." << std::endl;
-	else
-	{
-		form.execute(this);
-		std::cout << this->_name << " executed form " << form << "." << std::endl;
-	}
+	if (form.getSignGradeRequired() < this->_signGrade)
+         throw Form::SignGradeLevelTooLowException();
+    if (form.getExecGradeRequired() < this->_execGrade)
+         throw Form::ExecGradeLevelTooLowException();
+	form.execute(*this);
 }
+
