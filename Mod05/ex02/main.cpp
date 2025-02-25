@@ -13,10 +13,12 @@ int main(void)
 		Bureaucrat An;
 		Bureaucrat En("En", 25, 5);
 		Bureaucrat Steve("Steve", 1, 1);
+		Bureaucrat Diskard("Diskard", 26, 5);
 		Bureaucrat SteveCpy;
 		ShrubberyCreationForm	shcf1("shcf1");
 		RobotomyRequestForm		rbtm("Steve");
 		PresidentialPardonForm	ppf("Robbie");
+		PresidentialPardonForm	ppf2("Grantt");
 		SteveCpy = Steve;
 
 		std::cout << std::endl;
@@ -53,9 +55,14 @@ int main(void)
 		{
 			std::cerr << "X Error " << e.what() << ": not possible to create Form with such a low grade." << std::endl;	
 		}
-
-
-
+		try 
+		{
+			Diskard.executeForm(ppf2);
+		}
+		catch (std::exception &e)
+		{
+			std::cerr << "X Error " << e.what() << ": not possible to create Form with such a low grade." << std::endl;	
+		}
 
 		std::cout << std::endl;
 	}

@@ -39,7 +39,7 @@ int RobotomyRequestForm::execute(Bureaucrat const &executor) const
 	rand = std::rand() % 2;
 	std::cout << "Roll: " << rand << std::endl;
 	if (rand >= 1)
-		std::cout << this->getName() << " as being robotomized." << std::endl; 
+		std::cout << this->getName() << " has being robotomized." << std::endl; 
 	else
 		std::cout << this->getName() << "  robotomization has failed." << std::endl; 
     return 0;

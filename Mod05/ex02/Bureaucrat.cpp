@@ -100,5 +100,6 @@ void Bureaucrat::executeForm(Form const &form)
     if (form.getExecGradeRequired() < this->_execGrade)
          throw Form::ExecGradeLevelTooLowException();
 	form.execute(*this);
+	std::cout << this->getName() << " executed " << form.getName() << std::endl;
 }
 
