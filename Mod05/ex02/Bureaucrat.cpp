@@ -99,7 +99,10 @@ void Bureaucrat::executeForm(Form const &form)
          throw Form::SignGradeLevelTooLowException();
     if (form.getExecGradeRequired() < this->_execGrade)
          throw Form::ExecGradeLevelTooLowException();
-	form.execute(*this);
-	std::cout << this->getName() << " executed " << form.getName() << std::endl;
+	std::cout << ":: ? Checking form signature" << std::endl;
+	if (!form.IsSigned())
+		this->signForm((Form &)form);
+	form.execute((Bureaucrat const &)*this);
+	std::cout << "  :: √ " << this->getName() << " executed " << form.getName() << std::endl;
 }
 

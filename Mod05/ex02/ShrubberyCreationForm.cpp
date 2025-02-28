@@ -38,7 +38,7 @@ int ShrubberyCreationForm::execute(Bureaucrat const &executor) const
     std::ofstream sciifile(filename.c_str());
     
     if (!sciifile.good())
-        throw std::runtime_error("Failed to open file");
+        throw std::runtime_error(":: X Failed to open file");
         
     sciifile << "SCII tree" << std::endl;
     sciifile.close();

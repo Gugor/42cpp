@@ -80,11 +80,13 @@ bool Form::beSigned(const Bureaucrat &b)
 	}
 }
 
+
 int Form::execute(Bureaucrat const &executor) const
 {
-	std::cout << executor.getName() << " sending order to execute form..." << std::endl; 
+	std::cout << ":: " <<  executor.getName() << " sending order to execute form..." << std::endl; 
 	return (0);
 }
+
 
 const char *Form::GradeTooHighException::what() const throw()
 {	

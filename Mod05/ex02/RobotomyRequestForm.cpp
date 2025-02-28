@@ -35,13 +35,13 @@ int RobotomyRequestForm::execute(Bureaucrat const &executor) const
 	int rand;
     Form::execute(executor);
     
-	std::cout << "brrrrrrriiiizzz..." << std::endl; 
+	std::cout << ":: brrrrrrriiiizzz..." << std::endl; 
 	rand = std::rand() % 2;
-	std::cout << "Roll: " << rand << std::endl;
+	std::cout << "	:: Roll: " << rand << std::endl;
 	if (rand >= 1)
-		std::cout << this->getName() << " has being robotomized." << std::endl; 
+		std::cout << "	:: √ " << this->getName() << " has been successfully robotomized." << std::endl; 
 	else
-		std::cout << this->getName() << "  robotomization has failed." << std::endl; 
+		std::cout << "	:: X " << this->getName() << "'s  robotomization has failed." << std::endl; 
     return 0;
 }
 
