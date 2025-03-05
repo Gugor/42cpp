@@ -2,10 +2,11 @@
 #define CHARACTER_H
 
 #include "ICharacter.hpp"
+#include "AMateria.hpp"
 
-#define MATS_MX
+#define MATS_MX 42
 
-class Character
+class Character : ICharacter
 {
 	public:
 		Character(void);
@@ -21,7 +22,7 @@ class Character
 	private:
 		std::string _name;
 		int _matsEquiped;
-		AMateria *_invetory[MATS_MX];
+		AMateria *_inventory[MATS_MX];
 };
 
 #endif
