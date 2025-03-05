@@ -15,7 +15,7 @@ Form::Form(const std::string name, const int grade, const int exec) : _name(name
 		throw GradeTooHighException();
 	else
 		this->_isSigned = false;
-	std::cout << ":: " << this->_name << " has been created." << std::endl;	
+	std::cout << ":: " << this->_name << " has been created [BASE]." << std::endl;	
 }
 
 Form::Form(const Form &other) : _name(other.getName()), _signGrade(other.getSignGradeRequired()), _execGrade(other.getExecGradeRequired())

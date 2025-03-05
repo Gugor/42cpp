@@ -1,5 +1,4 @@
 
-#include <random>
 #include <ctime>
 #include "Bureaucrat.hpp"
 #include "Form.hpp"
@@ -10,6 +9,8 @@
 
 int main(void)
 {	
+		std::cout << "=== First Tests===" << std::endl;
+		std::cout << std::endl;
 	{
 		Bureaucrat Jhon("Jhon", 1 , 1);
 		Bureaucrat Low;
@@ -17,8 +18,7 @@ int main(void)
 		Form	*smhs;
 
 		std::cout << std::endl;
-		std::srand(std::time(0));
-		smhs = nullptr;
+		smhs = 0;
 		try 
 		{
 			smhs =  noone.makeForm("ShrubberyCreationForm", "Summer House");
@@ -38,6 +38,9 @@ int main(void)
 
 		std::cout << std::endl;
 	}
+		std::cout << std::endl;
+		std::cout << "=== Second Tests===" << std::endl;
+		std::cout << std::endl;
 	{
 		Bureaucrat David("David", 25 , 5);
 		Bureaucrat Low;
@@ -45,8 +48,7 @@ int main(void)
 		Form	*smhs;
 
 		std::cout << std::endl;
-		std::srand(std::time(0));
-		smhs = nullptr;
+		smhs = 0;
 		try 
 		{
 			smhs =  noone.makeForm("RobotomyRequestForm", "Jhon");

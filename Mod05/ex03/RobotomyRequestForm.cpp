@@ -1,4 +1,5 @@
 #include <fstream>
+#include <cstdlib>
 #include "Bureaucrat.hpp"
 #include "RobotomyRequestForm.hpp"
 
@@ -32,13 +33,13 @@ RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &o
 
 int RobotomyRequestForm::execute(Bureaucrat const &executor) const
 {
-	int rand;
+	int srand;
     Form::execute(executor);
     
 	std::cout << ":: brrrrrrriiiizzz..." << std::endl; 
-	rand = std::rand() % 2;
-	std::cout << "	:: Roll: " << rand << std::endl;
-	if (rand >= 1)
+	srand = rand() % 2;
+	std::cout << "	:: Roll: " << srand << std::endl;
+	if (srand >= 1)
 		std::cout << "	:: √ " << this->getName() << " has been successfully robotomized." << std::endl; 
 	else
 		std::cout << "	:: X " << this->getName() << "'s  robotomization has failed." << std::endl; 
