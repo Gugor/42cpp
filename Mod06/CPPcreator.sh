@@ -164,64 +164,105 @@ EOF
 printf " \033[1;32m¬\033[0m main.cpp crated ($path)\n"
 }
 
+# Config Variables
 folder=""
+conffile="CPPcreator.sh"
 classname="BaseClass"
 lowercase="baseclass"
 uppercase="BASECLASS"
 counter=-1
+cpy=0
 
-if [ $# -eq 0 ]; then
+count_folders()
+{
+	for item in *; do
+		# echo "Comparing item $item" 
+		if [ -d "$item" ] && [[ $(basename "$item") == $1* ]]; then
+			((counter++))
+		fi
+		# echo "No args $counter"
+	done
+}
+
+create_mod_folder()
+{
 	printf "\033[1;33m=> ?\033[0m Would you like to create a new  \033[1;32m Mod \033[0m folder? (y/n) "
 	read res
 	if [ $res = n ]; then
 		printf " :: \033[1;31mX\033[0m Aborting Mod creation\n"
 		exit 1
 	fi
-	for item in *; do
-		# echo "Comparing item $item"
-		if [ -d "$item" ] && [[ $(basename "$item") == Mod* ]]; then
-			((counter++))
-		fi
-		# echo "No args $counter"
-	done
+	count_folders "Mod"
 	((counter++))
 	folder="Mod0$counter"
 	classname=$1
+	echo $classname
 	mkdir -p $folder
+	mkdir -p $folder/assets
+	cp -vf Makefile $folder
+	cp -vf $conffile $folder
 	folder="$folder/ex00"
 	mkdir -p $folder
 	echo "Created folder project $folder"
-elif [ $# -eq 1 ]; then
+}
+
+create_ex_folder()
+{
 	printf " \033[1;33m=> ?\033[0m Would you like to create a new \033[1;32mexercice\033[0m folder (\033[1;34m$1\033[0m)? (y/n) "
 	read res
 	if [ $res = n ]; then
 		printf " :: \033[1;31mX\033[0m Aborting Exercice creation\n"
 		exit 0
 	fi
-	for item in *; do
-		# echo "Comparing item $item" 
-		if [ -d "$item" ] && [[ $(basename "$item") == ex* ]]; then
-			((counter++))
+	count_folders "ex"
+	if [ $counter -gt -1 ]; then
+		printf " \033[1;33m=> ?\033[0m Would you like to copy files form another \033[1;32mexercice\033[0m folder (\033[1;34m$1\033[0m)? (y/n) "
+		read $ses
+		if [ $res = y ]; then
+			printf " \033[1;33m=> \033[0m Insert folder: "
+			read src
+			cdir=$(pwd)/$src
+			if [ -d  "$cdir" ]; then
+				echo "";
+				cpy=1;		
+			else
+				printf " :: \033[1;31mX\033[0m Dir $src not found\n"
+				exit 0
+			fi
 		fi
-		# echo "No args $counter"
-	done
-		((counter++))
-		classname=$1
-		folder="ex0$counter"
-		mkdir -p $folder 
-		lowercase=$(to_lowercase "$1")
-		uppercase=$(to_uppercase "$1")
-	
-else
+	fi
+	((counter++))
+	classname=$1
+	echo $classname
+	folder="ex0$counter"
+	mkdir -p $folder 
+	lowercase=$(to_lowercase "$1")
+	uppercase=$(to_uppercase "$1")
+	if [ $cpy -eq 1 ]; then
+		printf " :: \033[1;32mV\033[0m  Copying \033[1;34m$src\033[0m files in \033[1;34m$folder\033[0m\n"
+		cp -vf "$src"/* "ex0$counter"
+	fi
+}
+
+# Create folders
+if [ $# -eq 0 ]; then
+	create_mod_folder $2
+elif [ $# -eq 2 ]; then
+	if [ $1 = MOD ]; then
+		create_mod_folder $2
+	elif [ $1 = EX ]; then
+		create_ex_folder $2
+	fi
 	lowercase=$(to_lowercase "$2")
 	uppercase=$(to_uppercase "$2")
-	folder="ex0$1"
 fi
 if [ $counter -gt -1 ]; then
-	create_makefile "$folder" "$lowercase" 
+	if [ $cpy -eq 0 ]; then
+		create_makefile "$folder" "$lowercase" 
+		create_main "$folder" "$classname" "$lowercase"
+	fi
 	create_hpp_file "$folder" "$classname" "$lowercase" "$uppercase"
 	create_cpp_file "$folder" "$classname"
-	create_main "$folder" "$classname" "$lowercase"
 	printf " :: \033[1;32mV\033[0m  Created project files in \033[1;34m$folder\033[0m\n"
 	exit 0
 fi
