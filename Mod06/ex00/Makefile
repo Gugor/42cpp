@@ -16,34 +16,33 @@ CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
-INCS		:= scalarconverter.hpp
-SRCS		:= main.cpp scalarconverter.cpp
+INCS		:= ScalarConverter.hpp
+SRCS		:= main.cpp ScalarConverter.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME):: $(OBJS) $(INCS)
-@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
-$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME)
+	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 debug:: $(OBJS) $(INCS)
-@printf "$(GREEN)√ $(RESET)$(YELLOW)[DEBUG-MODE]$(RESET) $(WHITE)%s$(RESET)\n  " "$<"
-$(GCC) $(CFLAGS) $(CPPFLAGS) $(DEBFLAGS) $(OBJS) -o $(NAME_DEB)
+	@printf "$(GREEN)√ $(RESET)$(YELLOW)[DEBUG-MODE]$(RESET) $(WHITE)%s$(RESET)\n  " "$<"
+	$(GCC) $(CFLAGS) $(CPPFLAGS) $(DEBFLAGS) $(OBJS) -o $(NAME_DEB)
 
 %.o : %.cpp Makefile
-@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
-$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
-@rm -vf *.o
-@rm -vf *_shrubbery
+	@rm -vf *.o
 
 fclean: clean
-@rm -vf $(NAME) $(NAME_DEB)
+	@rm -vf $(NAME) $(NAME_DEB)
 
 re: fclean all
-@echo "\n==========================================="
-@echo "|| \033[1;32m√\033[0m Recompiled  \033[1;33m$(NAME)\033[0m"
-@echo "==========================================="
+	@echo "\n==========================================="
+	@echo "|| \033[1;32m√\033[0m Recompiled  \033[1;33m$(NAME)\033[0m"
+	@echo "==========================================="
 
 .PHONY: all clean fclean re

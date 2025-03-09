@@ -21,23 +21,24 @@ $(CLASSNAME) :
 	fi
 
 rm-exercices :
-	@printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove ALL exercices\033[0m folders? (y/n): "
-	@read res && \
-	if [ "$$res" = "y" ]; then \
-		rm -vfR ex*; \
+	@counter=-1; \
+	cdir=$$(pwd); \
+	bdir=$$(basename $$cdir); \
+	if [[ "$$bdir" != Mod0* ]]; then \
+		printf ":: \033[1;31mX\033[0m For security reasons this command only can be executed inside a Mod0X folder \n"; \
+		exit 0; \
 	else \
-		printf ":: \033[1;31mX\033[0m Aborting remove exercice folders\n"; \
-	fi
+		printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove ALL exercices\033[0m folders? (y/n): "; \
+		read res && \
+		if [ "$$res" = "y" ]; then \
+			rm -vfR ex*; \
+		else \
+			printf ":: \033[1;31mX\033[0m Aborting remove exercice folders\n"; \
+		fi; \
+	fi;
+
 
 rm-last :
-	@printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove ALL exercices\033[0m folders? (y/n): "
-	@read res && \
-	if [ "$$res" = "y" ]; then \
-		rm -vfR ex*; \
-	else \
-		printf ":: \033[1;31mX\033[0m Aborting remove exercice folders\n"; \
-		exit 0; \
-	fi; \
 	@counter=-1; \
 	cdir=$$(pwd); \
 	bdir=$$(basename $$cdir); \
@@ -51,6 +52,12 @@ rm-last :
 			((counter++)) \
 		fi; \
         done; \
+	printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove last directory ($$counter)\033[0m? (y/n): "; \
+	read res && \
+	if [ "$$res" != "y" ]; then \
+		printf ":: \033[1;31mX\033[0m Aborting remove exercice\n"; \
+		exit 0; \
+	fi; \
 	if [[ "$$folder" == ex ]]; then \
 		echo "Removing folder ex0$$counter"; \
 		rm -vfR "ex0$$counter"; \

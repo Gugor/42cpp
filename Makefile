@@ -39,15 +39,7 @@ rm-exercices :
 
 
 rm-last :
-	@printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove ALL exercices\033[0m folders? (y/n): "
-	@read res && \
-	if [ "$$res" = "y" ]; then \
-		rm -vfR ex*; \
-	else \
-		printf ":: \033[1;31mX\033[0m Aborting remove exercice folders\n"; \
-		exit 0; \
-	fi; \
-	counter=-1; \
+	@counter=-1; \
 	cdir=$$(pwd); \
 	bdir=$$(basename $$cdir); \
 	if [[ "$$bdir" == Mod* ]]; then \
@@ -60,6 +52,12 @@ rm-last :
 			((counter++)) \
 		fi; \
         done; \
+	printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove last directory ($$counter)\033[0m? (y/n): "; \
+	read res && \
+	if [ "$$res" != "y" ]; then \
+		printf ":: \033[1;31mX\033[0m Aborting remove exercice\n"; \
+		exit 0; \
+	fi; \
 	if [[ "$$folder" == ex ]]; then \
 		echo "Removing folder ex0$$counter"; \
 		rm -vfR "ex0$$counter"; \

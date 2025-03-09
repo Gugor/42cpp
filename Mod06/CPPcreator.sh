@@ -21,8 +21,8 @@ CYAN            := \033[1;36m
 WHITE           := \033[1;37m
 RESET           := \033[1;0m
 
-NAME 		:= $2
-NAME_DEB 	:= $2_deb
+NAME 		:= $3
+NAME_DEB 	:= $3_deb
 CC		:= c++
 GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror
@@ -36,44 +36,43 @@ OBJS		:= \$(SRCS:.cpp=.o)
 all: \$(NAME)
 
 \$(NAME):: \$(OBJS) \$(INCS)
-@printf "\$(GREEN)√ \$(RESET)\$(WHITE)%s\$(RESET)\n  " "$<"
-\$(CC) \$(CFLAGS) \$(CPPFLAGS) \$(OBJS) -o \$(NAME)
+	@printf "\$(GREEN)√ \$(RESET)\$(WHITE)%s\$(RESET)\n  " "$<"
+	\$(CC) \$(CFLAGS) \$(CPPFLAGS) \$(OBJS) -o \$(NAME)
 
 debug:: \$(OBJS) \$(INCS)
-@printf "\$(GREEN)√ \$(RESET)\$(YELLOW)[DEBUG-MODE]\$(RESET) \$(WHITE)%s\$(RESET)\n  " "$<"
-\$(GCC) \$(CFLAGS) \$(CPPFLAGS) \$(DEBFLAGS) \$(OBJS) -o \$(NAME_DEB)
+	@printf "\$(GREEN)√ \$(RESET)\$(YELLOW)[DEBUG-MODE]\$(RESET) \$(WHITE)%s\$(RESET)\n  " "$<"
+	\$(GCC) \$(CFLAGS) \$(CPPFLAGS) \$(DEBFLAGS) \$(OBJS) -o \$(NAME_DEB)
 
 %.o : %.cpp Makefile
-@printf "\$(GREEN)√ \$(RESET)\$(WHITE)%s\$(RESET)\n  " "$<"
-\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c $< -o \$@
+	@printf "\$(GREEN)√ \$(RESET)\$(WHITE)%s\$(RESET)\n  " "$<"
+	\$(CC) \$(CFLAGS) \$(CPPFLAGS) -c $< -o \$@
 
 clean:
-@rm -vf *.o
-@rm -vf *_shrubbery
+	@rm -vf *.o
 
 fclean: clean
-@rm -vf \$(NAME) \$(NAME_DEB)
+	@rm -vf \$(NAME) \$(NAME_DEB)
 
 re: fclean all
-@echo "\n==========================================="
-@echo "|| \033[1;32m√\033[0m Recompiled  \033[1;33m\$(NAME)\033[0m"
-@echo "==========================================="
+	@echo "\n==========================================="
+	@echo "|| \033[1;32m√\033[0m Recompiled  \033[1;33m\$(NAME)\033[0m"
+	@echo "==========================================="
 
 .PHONY: all clean fclean re
 EOF
 
-printf " \033[1;32m¬\033[0m Makefile has been created ($path)\n"
+	printf " \033[1;32m¬\033[0m Makefile has been created ($path)\n"
 }
 
 to_lowercase() 
 {
-lowercase=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-echo $lowercase
+	lowercase=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+	echo $lowercase
 }
 to_uppercase() 
 {
-uppercase=$(echo "$1" | tr '[:lower:]' '[:upper:]')
-echo $uppercase
+	uppercase=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+	echo $uppercase
 }
 
 create_hpp_file()
@@ -177,7 +176,7 @@ count_folders()
 {
 	for item in *; do
 		# echo "Comparing item $item" 
-		if [ -d "$item" ] && [[ $(basename "$item") == $1* ]]; then
+		if [ -d "$item" ] && [[ $(basename "$item") == $10* ]]; then
 			((counter++))
 		fi
 		# echo "No args $counter"
@@ -188,7 +187,7 @@ create_mod_folder()
 {
 	printf "\033[1;33m=> ?\033[0m Would you like to create a new  \033[1;32m Mod \033[0m folder? (y/n) "
 	read res
-	if [ $res = n ]; then
+	if [ "$res" != y ]; then
 		printf " :: \033[1;31mX\033[0m Aborting Mod creation\n"
 		exit 1
 	fi
@@ -210,11 +209,12 @@ create_ex_folder()
 {
 	printf " \033[1;33m=> ?\033[0m Would you like to create a new \033[1;32mexercice\033[0m folder (\033[1;34m$1\033[0m)? (y/n) "
 	read res
-	if [ $res = n ]; then
+	if [ $res != y ]; then
 		printf " :: \033[1;31mX\033[0m Aborting Exercice creation\n"
 		exit 0
 	fi
 	count_folders "ex"
+	echo "ex0x folders: $counter";
 	if [ $counter -gt -1 ]; then
 		printf " \033[1;33m=> ?\033[0m Would you like to copy files form another \033[1;32mexercice\033[0m folder (\033[1;34m$1\033[0m)? (y/n) "
 		read $ses
@@ -258,7 +258,7 @@ elif [ $# -eq 2 ]; then
 fi
 if [ $counter -gt -1 ]; then
 	if [ $cpy -eq 0 ]; then
-		create_makefile "$folder" "$lowercase" 
+		create_makefile "$folder" "$classname" "$lowercase"  
 		create_main "$folder" "$classname" "$lowercase"
 	fi
 	create_hpp_file "$folder" "$classname" "$lowercase" "$uppercase"

@@ -2,18 +2,13 @@
 # define SCALARCONVERTER_H 
 
 # include <iostream>
+# include <stdlib.h>
 # include <string>
 
 class ScalarConverter
 {
-public:
-	ScalarConverter(void);
-	ScalarConverter(const ScalarConverter &other);
-	ScalarConverter &operator=(const ScalarConverter &scalarconverter);
-	~ScalarConverter(void);
-	std::string getName(void) const; 
-private:
-	std::string _name;
+	public:
+		static void convert(std::string &s);
 };
 
 #endif
