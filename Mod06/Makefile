@@ -49,12 +49,12 @@ rm-last :
 	fi; \
 	for item in *; do \
 		if [ -d "$$item" ] && [[ $$(basename "$$item") == $$folder* ]]; then \
-			((counter++)) \
+			((counter++)); \
 		fi; \
         done; \
 	printf ":: \033[1;31m!!\033[0m Are you sure you want to \033[1;31mremove last directory ($$counter)\033[0m? (y/n): "; \
 	read res && \
-	if [ "$$res" != "y" ]; then \
+	if [ $$res != y ]; then \
 		printf ":: \033[1;31mX\033[0m Aborting remove exercice\n"; \
 		exit 0; \
 	fi; \

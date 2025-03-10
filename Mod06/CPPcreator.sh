@@ -214,11 +214,12 @@ create_ex_folder()
 		exit 0
 	fi
 	count_folders "ex"
-	echo "ex0x folders: $counter";
-	if [ $counter -gt -1 ]; then
+	# echo "ex0x folders: $counter";
+	if [ -d "ex00" ]; then
 		printf " \033[1;33m=> ?\033[0m Would you like to copy files form another \033[1;32mexercice\033[0m folder (\033[1;34m$1\033[0m)? (y/n) "
-		read $ses
-		if [ $res = y ]; then
+		read $res2
+		echo $res2;
+		if [ $res2 = y ]; then
 			printf " \033[1;33m=> \033[0m Insert folder: "
 			read src
 			cdir=$(pwd)/$src
