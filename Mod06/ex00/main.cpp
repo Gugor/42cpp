@@ -3,7 +3,6 @@
 int main (int ac, char **av)
 {
 	std::string val = std::string("0");
-	std::cout << ac << std::endl;
 	if (std::string(av[1]).empty() || ac > 2)
 		return (0);
 	if (ac > 1)

@@ -1,5 +1,8 @@
 #include "ScalarConverter.hpp"
 #include <iomanip>
+#include <climits>
+#include <cfloat> 
+#include <cerrno> 
 
 
 int isChar(std::string &c)
@@ -9,13 +12,36 @@ int isChar(std::string &c)
 	return (1);
 }
 
+int isOverflow(double dc, int type)
+{
+	if (type == INTT)
+	{
+		if (dc < INT_MIN || dc > INT_MAX || errno == ERANGE)
+			return (1);
+		return (0);
+	}
+	else if (type == FLTT)
+	{
+		if (dc < -FLT_MAX || dc > FLT_MAX || errno == ERANGE) 
+			return (1);
+		return (0);
+	}
+	else if (type == DBLT)
+	{
+		if (errno == ERANGE) 
+			return (1);
+		return (0);
+	}
+	else
+		return (0);
+}
+
 void ScalarConverter::convert(std::string &s)
 {
-//	char *end;
-//	end = 0;
-	double dc = atof(s.c_str());
+	char *end;
+	errno = 0;
+	double dc = strtod(s.c_str(), &end);
 	std::cout << std::fixed << std::setprecision(6);
-	std::cout << dc << std::endl;	
 
 	if (s == "nan" || s == "nanf")
 	{
@@ -38,15 +64,28 @@ void ScalarConverter::convert(std::string &s)
 		std::cout << "float: -inf" << std::endl;
 		std::cout << "double: -inff" << std::endl;
 	}
-	else if (s.length() > 1)
+	else if (!isChar(s))
 	{
 		if (dc < 32 || dc > 126)
 			std::cout << "char: No displayable" << std::endl;
 		else
 			std::cout << "char: " << static_cast<char>(dc) << std::endl;
-		std::cout << "int: " << static_cast<int>(dc) << std::endl;
-		std::cout << "float: " << static_cast<float>(dc) << "f" << std::endl;
-		std::cout << "double: " << dc << std::endl;
+		
+		if (!isOverflow(dc, 0) && dc != 0)
+			std::cout << "int: " << static_cast<int>(dc) << std::endl;
+		else
+			std::cout << "int: impossible" << std::endl;
+
+		if (!isOverflow(dc, 1) && dc != 0)
+			std::cout << "float: " << static_cast<float>(dc) << "f" << std::endl;
+		else
+			std::cout << "float: impossible" << std::endl;
+
+		if (!isOverflow(dc, 2) && dc != 0)
+			std::cout << "double: " << dc << std::endl;
+		else
+			std::cout << "double: impossible" << std::endl;
+
 	}
 	else if (isChar(s))
 	{

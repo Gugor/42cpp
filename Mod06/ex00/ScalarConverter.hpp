@@ -5,6 +5,13 @@
 # include <stdlib.h>
 # include <string>
 
+enum 
+{
+	INTT,
+	FLTT,
+	DBLT
+};
+
 class ScalarConverter
 {
 	public:
