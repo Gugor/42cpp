@@ -88,14 +88,14 @@ cat << EOF | cat > $path
 
 class $2
 {
-public:
-	$2(void);
-	$2(const $2 &other);
-	$2 &operator=(const $2 &$3);
-	~$2(void);
-	std::string getName(void) const; 
-private:
-	std::string _name;
+	public:
+		$2(void);
+		$2(const $2 &other);
+		$2 &operator=(const $2 &$3);
+		~$2(void);
+		std::string getName(void) const; 
+	private:
+		std::string _name;
 };
 
 #endif
@@ -113,32 +113,32 @@ cat << EOF | cat > $path
 
 $2::$2(void)
 {
-std::cout << ":: $2 has been created." << std::endl; 
+	std::cout << ":: $2 has been created." << std::endl; 
 }
 
 $2::$2(const $2 &other)
 {
-if (this != &other)
-{
-	this->_name = other.getName();
-}
-std::cout << ":: $2 has been deep copied." << std::endl; 
+	if (this != &other)
+	{
+		this->_name = other.getName();
+	}
+	std::cout << ":: $2 has been deep copied." << std::endl; 
 }
 $2 &$2::operator=(const $2 &other)
 {
-if (this != &other)
-{
-	this->_name = other.getName();
-}
-std::cout << ":: $2 has been deep assigned." << std::endl; 
-return (*this);
+	if (this != &other)
+	{
+		this->_name = other.getName();
+	}
+	std::cout << ":: $2 has been deep assigned." << std::endl; 
+	return (*this);
 }
 
 $2::~$2(void){}
 
 std::string $2::getName(void) const
 {
-return (this->_name);
+	return (this->_name);
 }
 
 EOF
@@ -154,10 +154,10 @@ cat << EOF | cat > $path
 
 int main (void)
 {
-$2	$3;
+	$2	$3;
 
-std::cout << ":: My name is " << $3.getName() << std::endl;
-return (0);
+	std::cout << ":: My name is " << $3.getName() << std::endl;
+	return (0);
 }
 EOF
 printf " \033[1;32m¬\033[0m main.cpp crated ($path)\n"
@@ -219,7 +219,7 @@ create_ex_folder()
 		printf " \033[1;33m=> ?\033[0m Would you like to copy files form another \033[1;32mexercice\033[0m folder (\033[1;34m$1\033[0m)? (y/n) "
 		read $res2
 		echo $res2;
-		if [ $res2 = y ]; then
+		if [ "$res2" = y ]; then
 			printf " \033[1;33m=> \033[0m Insert folder: "
 			read src
 			cdir=$(pwd)/$src
