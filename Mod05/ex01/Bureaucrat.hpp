@@ -17,8 +17,8 @@ class Bureaucrat
 		~Bureaucrat(void);
 
 		const	std::string &getName(void) const;
-		int		getGrade(void) const;
-		int		signForm(Form &form);
+		int	getGrade(void) const;
+		int	signForm(Form &form);
 		void	incrementGrade(void);
 		void	decrementGrade(void);
 

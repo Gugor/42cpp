@@ -4,7 +4,7 @@
 Form::Form(void) : _name("Ineffable Form"), _signGrade(1), _execGrade(1)
 {
 	this->_isSigned = false;
-	std::cout << ":: Inneffable form has been created" << std::endl;
+	// std::cout << ":: Inneffable form has been created" << std::endl;
 }
 
 Form::Form(const std::string name, const int grade, const int exec) : _name(name), _signGrade(grade), _execGrade(exec)
@@ -15,7 +15,7 @@ Form::Form(const std::string name, const int grade, const int exec) : _name(name
 		throw GradeTooHighException();
 	else
 		this->_isSigned = false;
-	std::cout << ":: " << this->_name << " has been created." << std::endl;	
+	// std::cout << ":: " << this->_name << " has been created." << std::endl;	
 }
 
 Form::Form(const Form &other) : _name(other.getName()), _signGrade(other.getSignGradeRequired()), _execGrade(other.getExecGradeRequired())
@@ -23,7 +23,7 @@ Form::Form(const Form &other) : _name(other.getName()), _signGrade(other.getSign
 	if (this != &other)
 	{
 		this->_isSigned = other.IsSigned();
-		std::cout << ":: Form " << this->_name << " has been carefully copied." << std::endl;
+		// std::cout << ":: Form " << this->_name << " has been carefully copied." << std::endl;
 	}
 }
 
@@ -34,7 +34,7 @@ Form  &Form::operator=(const Form &other)
 	if (this != &other)
 	{
 		this->_isSigned = other.IsSigned();
-		std::cout << ":: Form " << this->_name << " has been carefully assigned." << std::endl;
+	//	std::cout << ":: Form " << this->_name << " has been carefully assigned." << std::endl;
 	}
 	return (*this);
 }
@@ -63,14 +63,14 @@ bool Form::beSigned(const Bureaucrat &b)
 {
 	if (this->_isSigned)
 	{
-		std::cout << b.getName() << " couldn't sign " << this->_name << " because was already signed by " << this->_signedBy << "." << std::endl;
+		std::cout << ":: " << b.getName() << " couldn't sign " << this->_name << " because was already signed by " << this->_signedBy << "." << std::endl;
 		return (false);
 	}
 	if (b.getSignGrade() <= this->_signGrade)
 	{
 		this->_isSigned = true;
 		this->_signedBy = b.getName();
-		std::cout << b.getName() << " signed form " << this->_name << "." << std::endl;
+		std::cout << ":: " << b.getName() << " signed form " << this->_name << "." << std::endl;
 		return (true);
 	}
 	else
@@ -84,6 +84,13 @@ bool Form::beSigned(const Bureaucrat &b)
 int Form::execute(Bureaucrat const &executor) const
 {
 	std::cout << ":: " <<  executor.getName() << " sending order to execute form..." << std::endl; 
+	if (this->_signGrade < executor.getSignGrade())
+		throw Form::SignGradeLevelTooLowException();
+	if (this->_execGrade > executor.getExecGrade())
+		throw Form::ExecGradeLevelTooLowException();
+	std::cout << ":: ? Checking form signature" << std::endl;
+	if (!this->IsSigned())
+		executor.signForm((Form &)*this);
 	return (0);
 }
 
@@ -100,12 +107,12 @@ const char *Form::GradeTooLowException::what() const throw()
 
 const char *Form::ExecGradeLevelTooLowException::what() const throw()
 {	
-	return ("Execution level to low to execute this form.");
+	return ("Execution level execption");
 }
 
 const char *Form::SignGradeLevelTooLowException::what() const throw()
 {	
-	return ("Sign level to low to execute this form.");
+	return ("Sign level exception");
 }
 
 
@@ -120,6 +127,4 @@ std::ostream &operator<<(std::ostream &out, const Form &other)
 	std::cout << "	:: Form required execution grade: " << other.getSignGradeRequired() << std::endl; 
 	return(out);
 }
-
-
 

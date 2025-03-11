@@ -17,10 +17,10 @@ class Form
 		~Form(void);
 
 		const std::string 	&getName(void) const;
-		int					getExecGradeRequired(void) const;
-		bool				IsSigned(void) const;
-		bool				beSigned(const Bureaucrat &b);
-		void				setGradeExecRequired(int grade);
+		int			getExecGradeRequired(void) const;
+		bool			IsSigned(void) const;
+		bool			beSigned(const Bureaucrat &b);
+		void			setGradeExecRequired(int grade);
 
 		class GradeTooHighException : public std::exception
 		{

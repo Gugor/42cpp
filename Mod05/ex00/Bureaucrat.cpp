@@ -66,7 +66,7 @@ void	Bureaucrat::incrementGrade(void)
 	if (this->_grade <= 1)
 		throw GradeTooHighException();
 	this->_grade--;
-	std::cout << ":: " << this->_name << "has step UP in the breaucracy leader" << std::endl;
+	std::cout << ":: " << this->_name << " has step UP in the breaucracy leader" << std::endl;
 }
 
 void	Bureaucrat::decrementGrade(void)
@@ -74,6 +74,6 @@ void	Bureaucrat::decrementGrade(void)
 	if (this->_grade >= 150)
 		throw GradeTooLowException();
 	this->_grade++;
-	std::cout << ":: " << this->_name << "has step DOWN in the breaucracy leader" << std::endl;
+	std::cout << ":: " << this->_name << " has step DOWN in the breaucracy leader" << std::endl;
 }
 

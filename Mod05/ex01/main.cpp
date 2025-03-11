@@ -30,6 +30,9 @@ int main(void)
 		{
 			std::cerr << "X Error " << e.what() << ": " << B2C3D4 << "	:: not possible to increment grade" << std::endl;	
 		}
+		Steve.signForm(A1B2C3);
+		An.signForm(A1B2C3);
+		An.signForm(B2C3D4);
 
 		std::cout << std::endl;
 	}

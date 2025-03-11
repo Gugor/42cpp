@@ -4,6 +4,20 @@
 #include <cfloat> 
 #include <cerrno> 
 
+ScalarConverter::ScalarConverter(void){}
+
+ScalarConverter::ScalarConverter(const ScalarConverter &other)
+{
+	if (this != &other)
+		*this = other;
+}
+
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
+{
+	if (this != &other)
+		*this = other;
+	return (*this);	
+}
 
 int isChar(std::string &c)
 {

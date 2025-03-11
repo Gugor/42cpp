@@ -58,14 +58,14 @@ bool Form::beSigned(const Bureaucrat &b)
 {
 	if (this->_isSigned)
 	{
-		std::cout << b.getName() << "couldn't sign " << this->_name << " because was already signed by " << this->_signedBy << "." << std::endl;
+		std::cout << "X " << b.getName() << " couldn't sign " << this->_name << " because was already signed by " << this->_signedBy << "." << std::endl;
 		return (false);
 	}
 	if (b.getGrade() <= this->_gradeExecRequired)
 	{
 		this->_isSigned = true;
 		this->_signedBy = b.getName();
-		std::cout << b.getName() << " signed form " << this->_name << "." << std::endl;
+		std::cout << ":: " << b.getName() << " signed form " << this->_name << "." << std::endl;
 		return (true);
 	}
 	else

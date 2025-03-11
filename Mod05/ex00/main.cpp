@@ -42,6 +42,18 @@ int main(void)
 		{
 			std::cerr << "X Error " << e.what() << ": " << SteveCpy << " not possible to increment grade" << std::endl;	
 		}
+
+		try
+		{
+			An.incrementGrade();
+			std::cout << ":: " << An << " has being updraded. " << std::endl;
+		}
+		catch (std::exception &e)
+		{
+			std::cerr << "X Error " << e.what() << ": " << An << " not possible to increment grade" << std::endl;	
+		}
+
+		std::cout << std::endl;
 		std::cout << std::endl;
 
 	}

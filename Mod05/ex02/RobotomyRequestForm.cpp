@@ -1,4 +1,5 @@
 #include <fstream>
+#include <cstdlib>
 #include "Bureaucrat.hpp"
 #include "RobotomyRequestForm.hpp"
 
