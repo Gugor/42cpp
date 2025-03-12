@@ -1,5 +1,6 @@
 
 #include <ctime>
+#include <cstdlib>
 #include "Bureaucrat.hpp"
 #include "Form.hpp"
 #include "ShrubberyCreationForm.hpp"
@@ -9,8 +10,8 @@
 
 int main(void)
 {	
-		std::cout << "=== First Tests===" << std::endl;
-		std::cout << std::endl;
+	std::cout << "=== First Tests===" << std::endl;
+	std::cout << std::endl;
 	{
 		Bureaucrat Jhon("Jhon", 1 , 1);
 		Bureaucrat Low;
@@ -25,11 +26,11 @@ int main(void)
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << "X Error " << e.what() << ": not possible to create Form with such a low grade." << std::endl;	
+			std::cerr << "X Error " << e.what() << ": incorrect form name." << std::endl;	
 		}
 		try
 		{
-			Jhon.executeForm(*smhs);
+			Jhon.executeForm((Form const &)*smhs);
 		}
 		catch (std::exception &e)
 		{
@@ -38,9 +39,10 @@ int main(void)
 
 		std::cout << std::endl;
 	}
-		std::cout << std::endl;
-		std::cout << "=== Second Tests===" << std::endl;
-		std::cout << std::endl;
+	
+	std::cout << std::endl;
+	std::cout << "=== Second Tests===" << std::endl;
+	std::cout << std::endl;
 	{
 		Bureaucrat David("David", 25 , 5);
 		Bureaucrat Low;
@@ -59,7 +61,11 @@ int main(void)
 		}
 		try
 		{
-			David.executeForm(*smhs);
+			if (smhs)
+			{
+				std::cout << ":: Executing form smhs" << std::endl;
+				David.executeForm((Form const &)*smhs);
+			}
 		}
 		catch (std::exception &e)
 		{

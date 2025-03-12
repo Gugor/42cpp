@@ -4,7 +4,7 @@
 Bureaucrat::Bureaucrat(void) : _name("Anonimous Bureaucrat")
 {
 	this->_signGrade 	= 150;
-	std::cout << ":: An " << this->_name << " has join to the humonguous lower lines of whom devote their lives to paperwork and ink" << std::endl;
+//	std::cout << ":: An " << this->_name << " has join to the humonguous lower lines of whom devote their lives to paperwork and ink" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const std::string name, const int grade, const int exec) : _name(name)
@@ -17,7 +17,7 @@ Bureaucrat::Bureaucrat(const std::string name, const int grade, const int exec) 
 	{
 		this->_signGrade 	= grade;
 		this->_execGrade 	= exec;
-		std::cout << ":: " << this->_name << " has join to the humonguous lines of whom devote their lives to paperwork and ink, with " << this->_signGrade << "/" << this->_execGrade << " for sign and execution levels." <<  std::endl;
+//		std::cout << ":: " << this->_name << " has join to the humonguous lines of whom devote their lives to paperwork and ink, with " << this->_signGrade << "/" << this->_execGrade << " for sign and execution levels." <<  std::endl;
 	}
 }
 
@@ -40,19 +40,28 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
     return "Grade too low!";
 }
 
+Bureaucrat::Bureaucrat(const Bureaucrat & other)
+{
+	if (this != &other)
+	{
+		this->_signGrade	= other.getSignGrade();
+//		std::cout << ":: " << *this << ", is a deep copy of some other Bureaucrat" << std::endl;
+	}
+} 
+
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) 
 {
 	if (this != &other)
 	{
 		this->_signGrade	= other.getSignGrade();
-		std::cout << ":: " << *this << ", is a deep copy of some other Bureaucrat" << std::endl;
+//		std::cout << ":: " << *this << ", is a deep assigment copy of some other Bureaucrat" << std::endl;
 	}
 	return (*this);
 }
 
 Bureaucrat::~Bureaucrat(void)
 {
-	std::cout << ":: Some will rejoice when they'll know that " << *this << " has left the ranks of paperworkers. The bureaucrats in the other hand are delight by the occasion of having to fill more boring forms. All is about perspective" << std::endl;
+//	std::cout << ":: Some will rejoice when they'll know that " << *this << " has left the ranks of paperworkers. The bureaucrats in the other hand are delight by the occasion of having to fill more boring forms. All is about perspective" << std::endl;
 }
 
 const std::string &Bureaucrat::getName(void) const
@@ -63,6 +72,11 @@ const std::string &Bureaucrat::getName(void) const
 int Bureaucrat::getSignGrade(void) const
 {
 	return (this->_signGrade);
+}
+
+int Bureaucrat::getExecGrade(void) const
+{
+	return (this->_execGrade);
 }
 
 void	Bureaucrat::incrementGrade(void)
@@ -84,10 +98,10 @@ void	Bureaucrat::decrementGrade(void)
 	if (this->_name.empty())
 		std::cout << ":: Undefined has step DOWN in the breaucracy leader" << std::endl;
 	else
-		std::cout << ":: " << this->_name << "has step DOWN in the breaucracy leader" << std::endl;
+		std::cout << ":: " << this->_name << " has step DOWN in the breaucracy leader" << std::endl;
 }
 
-int Bureaucrat::signForm(Form &form)
+int Bureaucrat::signForm(Form &form) const
 {
     form.beSigned(*this);
     return 0;
@@ -95,14 +109,8 @@ int Bureaucrat::signForm(Form &form)
 
 void Bureaucrat::executeForm(Form const &form)
 {
-	if (form.getSignGradeRequired() < this->_signGrade)
-         throw Form::SignGradeLevelTooLowException();
-    if (form.getExecGradeRequired() < this->_execGrade)
-         throw Form::ExecGradeLevelTooLowException();
-	std::cout << ":: ? Checking form signature" << std::endl;
-	if (!form.IsSigned())
-		this->signForm((Form &)form);
-	form.execute(*this);
+	std::cout << *this << " executing form" << form << std::endl;
+	form.execute((Bureaucrat const &)*this);
 	std::cout << "  :: √ " << this->getName() << " executed " << form.getName() << std::endl;
 }
 

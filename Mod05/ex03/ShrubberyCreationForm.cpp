@@ -9,12 +9,12 @@ ShrubberyCreationForm::ShrubberyCreationForm(void) : Form("Ineffable ShrubberyCr
 
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string target): Form(target, 145, 137)
 {
-	std::cout << ":: " << getName() << " has been created." << std::endl;	
+	std::cout << ":: " << this->getName() << " has been created." << std::endl;	
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &other) : Form(other)
 {
-	std::cout << ":: ShrubberyCreationForm " << getName() << " has been carefully copied." << std::endl;
+	std::cout << ":: ShrubberyCreationForm " << this->getName() << " has been carefully copied." << std::endl;
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm(void){}
