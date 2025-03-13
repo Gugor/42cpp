@@ -19,97 +19,154 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
 	return (*this);	
 }
 
+int isFloat(std::string &s)
+{
+	char *end;
+
+	errno = 0;
+	float fc = strtof(s.c_str(), &end);
+
+	if ((s[s.size()] == 'f' && s.size() > 1 && *end == '\0') || errno == ERANGE)
+		return (fc);
+	return (0);
+}
+
+int isInt(std::string &s)
+{
+	int end;
+	int num = atol(s.c_str());
+
+	end = -1;
+	if (num < INT_MIN || num > INT_MAX)
+		return (2);
+	while (s[++end] == ' ')
+		;;
+	if (s[end] == '+' || s[end] == '-')
+		end++;
+	while(std::isdigit(s[end]))
+		end++;
+	if (end == static_cast<int>(s.size()))
+		return (1);
+	return (0);
+}
+
+int isDbl(std::string &s)
+{
+	char *end;
+
+	errno = 0;
+	double dc = strtod(s.c_str(), &end);
+
+	if ((*end != '\0' && s.size() > 1) || errno == ERANGE)
+		return (0);
+	return (dc);
+}
+
 int isChar(std::string &c)
 {
+	if (c < 32 || c > 126)
+		return (2);
 	if (c.length() > 1)
 		return (0);
 	return (1);
 }
 
-int isOverflow(double dc, int type)
+t_types getType(std::string &s, int *res)
 {
-	if (type == INTT)
-	{
-		if (dc < INT_MIN || dc > INT_MAX || errno == ERANGE)
-			return (1);
-		return (0);
-	}
-	else if (type == FLTT)
-	{
-		if (dc < -FLT_MAX || dc > FLT_MAX || errno == ERANGE) 
-			return (1);
-		return (0);
-	}
-	else if (type == DBLT)
-	{
-		if (errno == ERANGE) 
-			return (1);
-		return (0);
-	}
+	if (*res = isChar(s))
+		return (CHART);
+	else if (*res = isFloat(s))
+		return (FLTT);
+	else if (*res = isDbl(s))
+		return (DBLT);
+	else if (*res = isInt(s))
+		return(INTT);
 	else
-		return (0);
+		return (IMP);
+}
+
+void toChar(std::string &s, t_type from, void *data)
+{
+	if (from == IMP)
+	{
+		std::cout << "char: impossible" << std::endl;
+		return ;
+	}
+	if (from == CHART)
+	{
+		std::cout << "char: '" << s.at(0) << "'" << std::endl;
+		return ;
+	}
+	if (from == INTT)
+	{
+		int num = *data;
+		std::cout << "char: '" << s << "'" << std::endl;
+		return ;
+	}
+	if (from == FLTT)
+	if (from == DBLT)
 }
 
 void ScalarConverter::convert(std::string &s)
 {
-	char *end;
+	t_types type;
+	int	res;
+
 	errno = 0;
-	double dc = strtod(s.c_str(), &end);
+
+	type = getType(s, &res);
 	std::cout << std::fixed << std::setprecision(6);
 
-	if (s == "nan" || s == "nanf")
+	if (type == IMP)
 	{
-		std::cout << "char: impossible" << std::endl;
+		std::cout << "Input type STRING" << std::endl;
 		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: nan" << std::endl;
-		std::cout << "double: nanf" << std::endl;
+		std::cout << "float: impossible" <<  std::endl;
+		std::cout << "double: impossible"  << std::endl;
+		return ;
 	}
-	else if (s == "+inf" || s == "+inff")
-	{
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: +inf" << std::endl;
-		std::cout << "double: +inff" << std::endl;
-	}
-	else if (s == "-inf" || s == "-inff")
-	{
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: -inf" << std::endl;
-		std::cout << "double: -inff" << std::endl;
-	}
-	else if (!isChar(s))
-	{
-		if (dc < 32 || dc > 126)
-			std::cout << "char: No displayable" << std::endl;
-		else
-			std::cout << "char: " << static_cast<char>(dc) << std::endl;
-		
-		if (!isOverflow(dc, 0) && dc != 0)
-			std::cout << "int: " << static_cast<int>(dc) << std::endl;
-		else
-			std::cout << "int: impossible" << std::endl;
 
-		if (!isOverflow(dc, 1) && dc != 0)
-			std::cout << "float: " << static_cast<float>(dc) << "f" << std::endl;
-		else
-			std::cout << "float: impossible" << std::endl;
-
-		if (!isOverflow(dc, 2) && dc != 0)
-			std::cout << "double: " << dc << std::endl;
-		else
-			std::cout << "double: impossible" << std::endl;
-
-	}
-	else if (isChar(s))
+	if (type == CHART)
 	{
-		if (isChar(s) && s.at(0) < 32 && s.at(0) > 126)
-			std::cout << "char: No displayable " << std::endl;
-		else	
-			std::cout << "char: " << static_cast<char>(s.at(0)) << std::endl;
+		std::cout << "Input type CHAR" << std::endl;
 		std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
-		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" << std::endl;
-		std::cout << "double: " << static_cast<double>(s.at(0)) <<  std::endl;
+		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
+		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
+		return ;
 	}
+
+	if (type == INTT)
+	{
+		long num = atoi(s.c_str());
+		if (num < INT_MIN || num > INT_MAX)
+			
+		std::cout << "Input type INT" << std::endl;
+		std::cout << "int: " << static_cast<int>(ic) << std::endl;
+		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
+		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
+		return ;
+	}
+
+	if (type == FLTT)
+	{
+		std::cout << "Input type FLOAT" << std::endl;
+		std::cout << "char: '" << s << "'" << std::endl;
+		std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
+		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
+		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
+		return ;
+	}
+
+
+	if (type == DBLT)
+	{
+		std::cout << "Input type DBL" << std::endl;
+		std::cout << "char: '" << s << "'" << std::endl;
+		std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
+		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
+		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
+		return ;
+	}
+
 }
 

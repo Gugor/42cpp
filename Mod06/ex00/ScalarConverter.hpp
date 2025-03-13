@@ -5,12 +5,14 @@
 # include <stdlib.h>
 # include <string>
 
-enum 
+typedef enum TYPES 
 {
-	INTT,
+	CHART,
 	FLTT,
-	DBLT
-};
+	DBLT,
+	INTT,
+	IMP
+}	t_types;
 
 class ScalarConverter
 {
