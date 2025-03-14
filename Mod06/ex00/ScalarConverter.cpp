@@ -19,16 +19,20 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
 	return (*this);	
 }
 
-int isFloat(std::string &s)
+bool isFloat(std::string &s)
 {
 	char *end;
 
 	errno = 0;
-	float fc = strtof(s.c_str(), &end);
+	if (s == "-inff" || s == "+inff")
+		return (true);
+	if (s == "nan")
+		return (false);
+	std::strtof(s.c_str(), &end);
 
 	if ((s[s.size()] == 'f' && s.size() > 1 && *end == '\0') || errno == ERANGE)
-		return (fc);
-	return (0);
+		return (true);
+	return (false);
 }
 
 int isInt(std::string &s)
@@ -37,6 +41,8 @@ int isInt(std::string &s)
 	int num = atol(s.c_str());
 
 	end = -1;
+	if (s == "-inff" || s == "+inff" || s == "nan")
+		return (false);
 	if (num < INT_MIN || num > INT_MAX)
 		return (2);
 	while (s[++end] == ' ')
@@ -55,6 +61,10 @@ int isDbl(std::string &s)
 	char *end;
 
 	errno = 0;
+	if (s == "-inf" || s == "+inf")
+		return (true);
+	if (s == "nan")
+		return (false);
 	double dc = strtod(s.c_str(), &end);
 
 	if ((*end != '\0' && s.size() > 1) || errno == ERANGE)
@@ -64,71 +74,47 @@ int isDbl(std::string &s)
 
 int isChar(std::string &c)
 {
-	if (c < 32 || c > 126)
-		return (2);
-	if (c.length() > 1)
+	if (c.length() > 1 && std::isdigit(c.c_str()[0]))
 		return (0);
 	return (1);
 }
 
-t_types getType(std::string &s, int *res)
+t_types getType(std::string &s)
 {
-	if (*res = isChar(s))
+	if (isChar(s))
 		return (CHART);
-	else if (*res = isFloat(s))
+	if (isFloat(s))
 		return (FLTT);
-	else if (*res = isDbl(s))
+	if (isDbl(s))
 		return (DBLT);
-	else if (*res = isInt(s))
+	if (isInt(s))
 		return(INTT);
-	else
-		return (IMP);
-}
-
-void toChar(std::string &s, t_type from, void *data)
-{
-	if (from == IMP)
-	{
-		std::cout << "char: impossible" << std::endl;
-		return ;
-	}
-	if (from == CHART)
-	{
-		std::cout << "char: '" << s.at(0) << "'" << std::endl;
-		return ;
-	}
-	if (from == INTT)
-	{
-		int num = *data;
-		std::cout << "char: '" << s << "'" << std::endl;
-		return ;
-	}
-	if (from == FLTT)
-	if (from == DBLT)
+	return (IMP);
 }
 
 void ScalarConverter::convert(std::string &s)
 {
 	t_types type;
-	int	res;
+	char 	*end;
 
 	errno = 0;
+	end = 0;
 
-	type = getType(s, &res);
+	type = getType(s);
 	std::cout << std::fixed << std::setprecision(6);
 
 	if (type == IMP)
 	{
-		std::cout << "Input type STRING" << std::endl;
+		std::cout << "char: impossible" << std::endl;
 		std::cout << "int: impossible" << std::endl;
 		std::cout << "float: impossible" <<  std::endl;
-		std::cout << "double: impossible"  << std::endl;
-		return ;
+		std::cout << "double: impossible" << std::endl;
 	}
 
 	if (type == CHART)
 	{
 		std::cout << "Input type CHAR" << std::endl;
+		std::cout << "char: '" << s.at(0) << "'" << std::endl;
 		std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
 		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
 		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
@@ -138,20 +124,30 @@ void ScalarConverter::convert(std::string &s)
 	if (type == INTT)
 	{
 		long num = atoi(s.c_str());
-		if (num < INT_MIN || num > INT_MAX)
 			
 		std::cout << "Input type INT" << std::endl;
-		std::cout << "int: " << static_cast<int>(ic) << std::endl;
-		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
-		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
+		if (num < 32 && num > 126)
+			std::cout << "char: '" << num << "'" << std::endl;
+		else
+			std::cout << "char: impossible" << std::endl;
+		std::cout << "float: " << static_cast<float>(num) << "f" <<  std::endl;
+		std::cout << "double: " << static_cast<double>(num) << std::endl;
 		return ;
 	}
 
 	if (type == FLTT)
 	{
+		float num = std::strtof(s.c_str(), &end);
+
 		std::cout << "Input type FLOAT" << std::endl;
-		std::cout << "char: '" << s << "'" << std::endl;
-		std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
+		if (num < 32 && num > 126)
+			std::cout << "char: '" << num << "'" << std::endl;
+		else
+			std::cout << "char: impossible" << std::endl;
+		if (num < INT_MIN || num > INT_MAX)
+			std::cout << "int: impossible" << std::endl;
+		else
+			std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
 		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
 		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
 		return ;
@@ -160,10 +156,22 @@ void ScalarConverter::convert(std::string &s)
 
 	if (type == DBLT)
 	{
+		float num = std::strtod(s.c_str(), &end);
+
 		std::cout << "Input type DBL" << std::endl;
-		std::cout << "char: '" << s << "'" << std::endl;
-		std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
-		std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
+		if (num < 32 && num > 126)
+			std::cout << "char: '" << num << "'" << std::endl;
+		else
+			std::cout << "char: impossible" << std::endl;
+		if (num < INT_MIN || num > INT_MAX)
+			std::cout << "int: impossible" << std::endl;
+		else
+			std::cout << "int: " << static_cast<int>(s.at(0)) << std::endl;
+		std::strtof(s.c_str(), &end);
+		if (errno == ERANGE)
+			std::cout << "float: impossible" <<  std::endl;
+		else
+			std::cout << "float: " << static_cast<float>(s.at(0)) << "f" <<  std::endl;
 		std::cout << "double: " << static_cast<double>(s.at(0)) << std::endl;
 		return ;
 	}
