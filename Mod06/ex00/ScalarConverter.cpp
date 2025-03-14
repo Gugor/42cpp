@@ -26,55 +26,57 @@ bool isFloat(std::string &s)
 	errno = 0;
 	if (s == "-inff" || s == "+inff" || s == "nanf")
 		return (true);
-	if (s == "nan")
-		return (false);
 	std::strtof(s.c_str(), &end);
-
-	if ((s[s.size()] == 'f' && s.size() > 1 && *end == '\0') || errno == ERANGE)
+	if (errno == ERANGE)
+		return (false);
+	if ((*end == 'f' && s.size() > 1 && *(end + 1) == '\0'))
 		return (true);
 	return (false);
 }
 
-int isInt(std::string &s)
+bool isInt(std::string &s)
 {
 	int end;
-	int num = atol(s.c_str());
+	char *endc;
+	double num = std::strtod(s.c_str(), &endc);
 
 	end = -1;
 	if (s == "-inff" || s == "+inff" || s == "nan")
 		return (false);
 	if (num < INT_MIN || num > INT_MAX)
-		return (2);
+		return (false);
 	while (s[++end] == ' ')
 		;;
+	if (s[end] == '\0')
+		return (false);
 	if (s[end] == '+' || s[end] == '-')
 		end++;
 	while(std::isdigit(s[end]))
 		end++;
 	if (end == static_cast<int>(s.size()))
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
-int isDbl(std::string &s)
+bool isDbl(std::string &s)
 {
 	char *end;
 
 	errno = 0;
 	if (s == "-inf" || s == "+inf" || s == "nan")
 		return (true);
-	double dc = strtod(s.c_str(), &end);
+	strtod(s.c_str(), &end);
 
 	if ((*end != '\0' && s.size() > 1) || errno == ERANGE)
-		return (0);
-	return (dc);
+		return (false);
+	return (true);
 }
 
-int isChar(std::string &c)
+bool isChar(std::string &c)
 {
 	if (c.size() > 1 || std::isdigit(c.c_str()[0]))
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
 t_types getType(std::string &s)
@@ -123,11 +125,11 @@ void ScalarConverter::convert(std::string &s)
 	{
 		long num = atoi(s.c_str());
 			
-		std::cout << "Input type INT" << std::endl;
-		if (num < 32 && num > 126)
-			std::cout << "char: '" << num << "'" << std::endl;
-		else
+		std::cout << "Input type INTEGER" << std::endl;
+		if (num < 32 || num > 126)
 			std::cout << "char: impossible" << std::endl;
+		else
+			std::cout << "char: '" << num << "'" << std::endl;
 		std::cout << "int: " << static_cast<int>(num) << std::endl;
 		std::cout << "float: " << static_cast<float>(num) << "f" <<  std::endl;
 		std::cout << "double: " << static_cast<double>(num) << std::endl;
@@ -157,7 +159,7 @@ void ScalarConverter::convert(std::string &s)
 	{
 		float num = std::strtod(s.c_str(), &end);
 
-		std::cout << "Input type DBL" << std::endl;
+		std::cout << "Input type DOUBLE" << std::endl;
 		if (num < 32 && num > 126)
 			std::cout << "char: '" << num << "'" << std::endl;
 		else
