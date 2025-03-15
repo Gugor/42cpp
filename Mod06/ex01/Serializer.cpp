@@ -1,32 +1,37 @@
 #include "Serializer.hpp"
+#include <stdint.h>
 
-Serializer::Serializer(void)
-{
-std::cout << ":: Serializer has been created." << std::endl; 
-}
+Serializer::Serializer(void){}
 
 Serializer::Serializer(const Serializer &other)
 {
-if (this != &other)
-{
-	this->_name = other.getName();
-}
-std::cout << ":: Serializer has been deep copied." << std::endl; 
+	if (this != &other)
+	{
+		*this = other;
+	}
 }
 Serializer &Serializer::operator=(const Serializer &other)
 {
-if (this != &other)
-{
-	this->_name = other.getName();
-}
-std::cout << ":: Serializer has been deep assigned." << std::endl; 
-return (*this);
+	if (this != &other)
+	{
+		*this = other;
+	}
+	return (*this);
 }
 
 Serializer::~Serializer(void){}
 
-std::string Serializer::getName(void) const
+Data* Serializer::deserialize(uintptr_t raw)
 {
-return (this->_name);
+	return (reinterpret_cast<Data *>(raw));
 }
 
+uintptr_t Serializer::serialize(Data* ptr)
+{
+	return (reinterpret_cast<uintptr_t>(ptr));
+}
+
+std::ostream &operator<<(std::ostream &out, const Data &data)
+{
+	return (out << "(" << &data << ")[someInt: " << data.someInt << "]"); 
+}

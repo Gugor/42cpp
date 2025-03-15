@@ -3,11 +3,12 @@
 
 # include <iostream>
 # include <string>
+# include <stdint.h>
 
-struct Data 
+typedef struct sData 
 {
 	int someInt;
-};
+}	Data;
 
 class Serializer
 {
@@ -20,6 +21,8 @@ class Serializer
 		static	uintptr_t serialize(Data* ptr);
 		static Data* deserialize(uintptr_t raw);
 };
+
+std::ostream &operator<<(std::ostream &out, const Data &data);
 
 #endif
 
