@@ -1,4 +1,5 @@
-#include "Whatever.hpp"
+#ifndef WHATEVER_TPP
+#define WHATEVER_TPP
 
 template <typename T>
 Whatever<T>::Whatever(void)
@@ -31,7 +32,7 @@ template <typename T>
 Whatever<T>::~Whatever(void){}
 
 template <typename T>
-void Whatever<T>::swap(T a, T b)
+void Whatever<T>::swap(T &a, T &b)
 {
 	T tmp;
 
@@ -55,3 +56,5 @@ T Whatever<T>::max(T a, T b)
 		return (a);
 	return (b);
 }
+
+#endif

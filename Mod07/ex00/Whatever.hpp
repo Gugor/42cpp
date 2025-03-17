@@ -4,6 +4,8 @@
 # include <iostream>
 # include <string>
 
+
+
 template <typename T>
 class Whatever
 {
@@ -13,10 +15,11 @@ class Whatever
 		Whatever &operator=(const Whatever<T> &whatever);
 		~Whatever(void);
 
-		static void swap(T a, T b);
+		static void swap(T &a, T &b);
 		static T min(T a, T b);
 		static T max(T a, T b);
 };
 
+# include "Whatever.tpp"
 #endif
 
