@@ -53,7 +53,8 @@ Array<T> &Array<T>::operator=(const Array<T> &other)
 {
 	if (this != &other)
 	{
-		delete[] this->_ptr;
+		if (this->_ptr)
+			delete[] this->_ptr;
 		this->_n = other.Size();
 		this->_ptr = new T[this->_n];
 		unsigned int indx;
@@ -86,7 +87,7 @@ template <typename T>
 T &Array<T>::operator[](unsigned int index)
 {
 	if (index > this->_n)
-		throw Array<T>::OutOfBoundsException();
+		throw OutOfBoundsException();
 	return (this->_ptr[index]);
 }
 
@@ -108,7 +109,7 @@ Array<T>::~Array(void)
 
 
 template <typename T>
-const char *Array<T>::OutOfBoundsException::what() throw()
+const char *Array<T>::OutOfBoundsException::what() const throw()
 {
 	return ("Out of bounds.");
 }

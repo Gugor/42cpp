@@ -16,25 +16,29 @@ int main (void)
 	str[9] = 'a';
 	str[10] = 'r';
 	str[11] = '\0';
-	std::cout << str << std::endl;
+	std::cout << ":: " << str << std::endl;
+	std::cout << std::endl;
 	try
 	{
-		str[12] = '4';
+		str[13] = '4';
 	}
 	catch (std::exception &e)
 	{
 		std::cout << ":: X Error " << e.what() << std::endl;
 	}
+	std::cout << std::endl;
 	Array<char> str2(str);
-	std::cout << str2 << std::endl;
+	std::cout << ":: " << str2 << std::endl;
+	std::cout << std::endl;
 	Array<char> str3(str2);
-	std::cout << str3 << std::endl;
+	std::cout << ":: " << str3 << std::endl;
+	std::cout << std::endl;
 	Array<int> nums(5);
 	nums[0] = 1;
 	nums[2] = 2;
 	nums[3] = 3;
 	nums[4] = 4;
 	nums[5] = 5;
-	std::cout << nums << std::endl;
+	std::cout << ":: " << nums << std::endl;
 	return (0);
 }

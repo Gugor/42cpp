@@ -20,7 +20,7 @@ class Array
 
 		class OutOfBoundsException : public std::exception
 		{
-			virtual const char *what(void) throw();
+			virtual const char *what(void) const throw();
 		};
 
 	private:
