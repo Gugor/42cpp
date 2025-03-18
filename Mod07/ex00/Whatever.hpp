@@ -1,25 +1,32 @@
-#ifndef WHATEVER_H 
-# define WHATEVER_H 
+#ifndef WHATEVER_HPP
+#define WHATEVER_HPP
 
-# include <iostream>
-# include <string>
-
-
+#include <iostream>
 
 template <typename T>
-class Whatever
+void swap(T &a, T &b)
 {
-	public:
-		Whatever(void);
-		Whatever(const Whatever &other);
-		Whatever &operator=(const Whatever<T> &whatever);
-		~Whatever(void);
+	T tmp;
 
-		static void swap(T &a, T &b);
-		static T min(T a, T b);
-		static T max(T a, T b);
-};
+	tmp = a;
+	a = b;
+	b = tmp;
+}
 
-# include "Whatever.tpp"
+template <typename T>
+T min(T &a, T &b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+template <typename T>
+T max(T &a, T &b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
 #endif
-

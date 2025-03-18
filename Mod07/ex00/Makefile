@@ -17,7 +17,7 @@ CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
 INCS		:= Whatever.hpp
-SRCS		:= main.cpp Whatever.cpp
+SRCS		:= main.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 all: $(NAME)
