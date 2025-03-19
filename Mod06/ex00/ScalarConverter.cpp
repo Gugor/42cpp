@@ -109,6 +109,7 @@ void ScalarConverter::convert(std::string &s)
 		std::cout << "int: impossible" << std::endl;
 		std::cout << "float: impossible" <<  std::endl;
 		std::cout << "double: impossible" << std::endl;
+		return ;
 	}
 
 	if (type == CHART)
@@ -129,7 +130,7 @@ void ScalarConverter::convert(std::string &s)
 		if (num < 32 || num > 126)
 			std::cout << "char: impossible" << std::endl;
 		else
-			std::cout << "char: '" << num << "'" << std::endl;
+			std::cout << "char: '" << static_cast<char>(num) << "'" << std::endl;
 		std::cout << "int: " << static_cast<int>(num) << std::endl;
 		std::cout << "float: " << static_cast<float>(num) << "f" <<  std::endl;
 		std::cout << "double: " << static_cast<double>(num) << std::endl;
@@ -141,8 +142,8 @@ void ScalarConverter::convert(std::string &s)
 		float num = std::strtof(s.c_str(), &end);
 
 		std::cout << "Input type FLOAT" << std::endl;
-		if (num < 32 && num > 126)
-			std::cout << "char: '" << num << "'" << std::endl;
+		if (num >= 32.0f && num <= 126.0f)
+			std::cout << "char: '" << static_cast<char>(num) << "'" << std::endl;
 		else
 			std::cout << "char: impossible" << std::endl;
 		if (num < INT_MIN || num > INT_MAX || s == "nanf")
@@ -160,8 +161,8 @@ void ScalarConverter::convert(std::string &s)
 		float num = std::strtod(s.c_str(), &end);
 
 		std::cout << "Input type DOUBLE" << std::endl;
-		if (num < 32 && num > 126)
-			std::cout << "char: '" << num << "'" << std::endl;
+		if (num >= 32.0 && num <= 126.0)
+			std::cout << "char: '" << static_cast<char>(num) << "'" << std::endl;
 		else
 			std::cout << "char: impossible" << std::endl;
 		if (num < INT_MIN || num > INT_MAX || s == "nan")
@@ -176,6 +177,5 @@ void ScalarConverter::convert(std::string &s)
 		std::cout << "double: " << static_cast<double>(num) << std::endl;
 		return ;
 	}
-
 }
 
