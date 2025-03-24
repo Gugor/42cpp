@@ -17,14 +17,14 @@ CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
 INCS		:= Iter.hpp
-SRCS		:= main.cpp
+SRCS		:= ex01.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME):: $(OBJS) $(INCS)
+$(NAME):: $(OBJS) $(INCS) 
 	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) -I./ -o $(NAME)
 
 debug:: $(OBJS) $(INCS)
 	@printf "$(GREEN)√ $(RESET)$(YELLOW)[DEBUG-MODE]$(RESET) $(WHITE)%s$(RESET)\n  " "$<"

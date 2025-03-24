@@ -4,13 +4,13 @@
 #include <iostream> 
 
 template <typename T> 
-void iter(T arr[], size_t size, void (*fnc)(T &))
+void iter(T arr[], size_t size, void (*fnc)(const T &))
 {
 	size_t indx;
 	
-	indx = -1;
-	while (arr[++indx] && indx < size)
-		fnc(arr[indx]);
+	indx = 0;
+	while (indx < size)
+		fnc(arr[indx++]);
 }
 
 template <typename T>

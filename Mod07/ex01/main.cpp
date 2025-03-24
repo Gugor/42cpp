@@ -3,7 +3,6 @@
 
 int main (void)
 {
-
 	std::cout << std::fixed << std::setprecision(3);
 	std::string str = std::string("i want to grow!");
 	int iarr[5] = {1,2,3,4,5};
