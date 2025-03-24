@@ -27,9 +27,12 @@ template <typename T>
 T *Array<T>::Clone(void) const
 {
 	T *newArr = new T[this->_n];
-	unsigned int indx = -1;
-	while (++indx < this->_n)
+	unsigned int indx = 0;
+	while (indx < this->_n)
+	{
 		newArr[indx] = this->_ptr[indx];
+		indx++;
+	}
 	return (newArr);
 }
 
@@ -39,11 +42,7 @@ Array<T>::Array(const Array<T> &other)
 	if (this != &other)
 	{
 		this->_n = other.Size();
-		this->_ptr = new T[this->_n];
-		unsigned int indx;
-		indx = -1;
-		while (++indx < this->_n)
-			this->_ptr[indx] = other[indx];
+		this->_ptr = other.Clone();
 		std::cout << ":: New array copied with size " << this->_n << " created." << std::endl;
 	}
 }
@@ -56,11 +55,7 @@ Array<T> &Array<T>::operator=(const Array<T> &other)
 		if (this->_ptr)
 			delete[] this->_ptr;
 		this->_n = other.Size();
-		this->_ptr = new T[this->_n];
-		unsigned int indx;
-		indx = -1;
-		while (++indx < this->_n)
-			this->_ptr[indx] = other[indx];
+		this->_ptr = other.Clone();
 		std::cout << ":: New array assigned with size " << this->_n << " created." << std::endl;
 	}
 	return (*this);
@@ -70,23 +65,25 @@ template <typename T>
 std::ostream &operator<<(std::ostream &out, const Array<T> &array)
 {
 	T *tmp = array.Clone();
-	unsigned int indx = -1;
+	unsigned int indx = 0;
 
 	std::cout << "Array ["; 	
-	while (++indx < array.Size())
+	while (indx < array.Size())
 	{
 		out << tmp[indx];
 		if (indx != array.Size() - 1)
 			out << ",";
+		indx++;
 	}
 	std::cout << "]";
+	delete[] tmp;
 	return (out);
 }
 
 template <typename T>
 T &Array<T>::operator[](unsigned int index)
 {
-	if (index > this->_n)
+	if (index >= this->_n)
 		throw OutOfBoundsException();
 	return (this->_ptr[index]);
 }
@@ -94,16 +91,16 @@ T &Array<T>::operator[](unsigned int index)
 template <typename T>
 const T &Array<T>::operator[](unsigned int index) const
 {
-    if (index >= _n)
-        throw OutOfBoundsException();
-    return _ptr[index];
+	if (index > this->_n)
+		throw OutOfBoundsException();
+	return this->_ptr[index];
 }
 
 template <typename T>
 Array<T>::~Array(void)
 {
-	if (this->_ptr)
-		delete[] this->_ptr;
+	std::cout << "Destructing ARR" << std::endl;
+	delete[] this->_ptr;
 }
 
 

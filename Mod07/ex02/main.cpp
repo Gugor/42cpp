@@ -1,44 +1,58 @@
+#include <iostream>
 #include "Array.hpp"
+#include <cstdlib>
+#include <ctime>
 
-int main (void)
+#define MAX_VAL 750
+int main(int, char**)
 {
-//	Array<char> str[2];
-	Array<char>	str(12);
-	str[0] = 't';
-	str[1] = 'h';
-	str[2] = 'i';
-	str[3] = 's';
-	str[4] = ' ';
-	str[5] = 'a';
-	str[6] = ' ';
-	str[7] = 'c';
-	str[8] = 'h';
-	str[9] = 'a';
-	str[10] = 'r';
-	str[11] = '\0';
-	std::cout << ":: " << str << std::endl;
-	std::cout << std::endl;
-	try
-	{
-		str[13] = '4';
-	}
-	catch (std::exception &e)
-	{
-		std::cout << ":: X Error " << e.what() << std::endl;
-	}
-	std::cout << std::endl;
-	Array<char> str2(str);
-	std::cout << ":: " << str2 << std::endl;
-	std::cout << std::endl;
-	Array<char> str3(str2);
-	std::cout << ":: " << str3 << std::endl;
-	std::cout << std::endl;
-	Array<int> nums(5);
-	nums[0] = 1;
-	nums[2] = 2;
-	nums[3] = 3;
-	nums[4] = 4;
-	nums[5] = 5;
-	std::cout << ":: " << nums << std::endl;
-	return (0);
+    Array<int> numbers(MAX_VAL);
+    int* mirror = new int[MAX_VAL];
+    std::srand(time(NULL));
+    for (int i = 0; i < MAX_VAL; i++)
+    {
+        const int value = std::rand();
+        numbers[i] = value;
+        mirror[i] = value;
+    }
+    //SCOPE
+    {
+        Array<int> tmp = numbers;
+        Array<int> test(tmp);
+    }
+
+    for (int i = 0; i < MAX_VAL; i++)
+    {
+        if (mirror[i] != numbers[i])
+        {
+            std::cerr << "didn't save the same value!!" << std::endl;
+            return 1;
+        }
+    }
+    try
+    {
+        numbers[-2] = 0;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    try
+    {
+        numbers[MAX_VAL] = 0;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+	std::cout << numbers[4] << std::endl;
+	std::cout << mirror[4] << std::endl;
+	std::cout << ":: Passed out of bounds" << std::endl;
+    for (int i = 0; i < MAX_VAL; i++)
+    {
+        numbers[i] = std::rand();
+    }
+	std::cout << ":: Passed out randomize" << std::endl;
+    delete [] mirror;
+    return 0;
 }

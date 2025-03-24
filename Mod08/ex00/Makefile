@@ -8,16 +8,16 @@ CYAN            := \033[1;36m
 WHITE           := \033[1;37m
 RESET           := \033[1;0m
 
-NAME 		:= array
-NAME_DEB 	:= array_deb
+NAME 		:= easyfind
+NAME_DEB 	:= easyfind_deb
 CC		:= c++
 GCC		:= g++
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror -I ./
 CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
-INCS		:= Array.hpp Array.tpp
-SRCS		:= main.cpp 
+INCS		:= easyfind.hpp
+SRCS		:= main.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 all: $(NAME)
