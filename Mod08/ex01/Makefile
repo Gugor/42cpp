@@ -10,8 +10,8 @@ RESET           := \033[1;0m
 
 NAME 		:= span
 NAME_DEB 	:= span_deb
-CC		:= c++
-GCC		:= g++
+CC			:= c++
+GCC			:= g++
 CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address

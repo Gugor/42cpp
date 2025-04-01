@@ -23,6 +23,7 @@ int main (void)
 		sp.addNumber(17);
 		sp.addNumber(9);
 		sp.addNumber(11);
+
 		try
 		{
 			sp.addNumber(11);
@@ -32,25 +33,30 @@ int main (void)
 		}
 		std::cout << sp.shortestSpan() << std::endl;
 		std::cout << sp.longestSpan() << std::endl;
+
 	}
 	{
 		std::cout << "+++ Exception Not enough data main +++" << std::endl;
 		Span sp = Span(5);
+		std::cout << "Try empty:" << std::endl;
 		try
 		{
 			std::cout << sp.shortestSpan() << std::endl;
 			std::cout << sp.longestSpan() << std::endl;
-		}catch (std::exception &e)
+		}
+		catch (std::exception &e)
 		{
 			std::cout << e.what() << std::endl;
 		}
+		std::cout << "Try one number:" << std::endl;
 		Span sp2 = Span(5);
 		try
 		{
 			sp.addNumber(6);
 			std::cout << sp2.shortestSpan() << std::endl;
 			std::cout << sp2.longestSpan() << std::endl;
-		}catch (std::exception &e)
+		}
+		catch (std::exception &e)
 		{
 			std::cout << e.what() << std::endl;
 		}
@@ -64,13 +70,11 @@ int main (void)
 
 		unsigned int size1 = 10000;
 		Span sp1(size1);
-		unsigned int indx = 0;
-
-		while (++indx < size1)
-		{
-			sp1.addNumber(std::rand());
-		}
+		std::cout << "Add numbers:" << std::endl;
+		sp1.addNumbers(size1);
+		std::cout << "Get shortest span:" << std::endl;
 		std::cout << sp1.shortestSpan() << std::endl;
+		std::cout << "Get longest span:" << std::endl;
 		std::cout << sp1.longestSpan() << std::endl;
 	}
 	/* Tarda mucho Usar con PACIENCIA 
@@ -80,12 +84,9 @@ int main (void)
 
 		unsigned int size2 = 100000;
 		Span sp2 = Span(size2);
-		unsigned int indx = 0;
 
-		while (++indx < size2)
-		{
-			sp2.addNumber(std::rand());
-		}
+		sp2.addNumbers(size2);
+
 		std::cout << sp2.shortestSpan() << std::endl;
 		std::cout << sp2.longestSpan() << std::endl;
 	}

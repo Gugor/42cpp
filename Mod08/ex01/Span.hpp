@@ -2,7 +2,7 @@
 # define SPAN_H 
 
 # include <iostream>
-# include <set>
+# include <vector>
 # include <cmath>
 
 class Span
@@ -15,11 +15,12 @@ class Span
 		~Span(void);
 		unsigned int  getN(void) const; 
 		void addNumber(int num); 
+		void addNumbers(unsigned int start, unsigned int end); 
 		long shortestSpan(void);
 		long longestSpan(void);
 	private:
 		unsigned int _n;
-		std::set<long> _span;
+		std::vector<int> _span;
 
 };
 

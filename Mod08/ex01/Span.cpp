@@ -30,7 +30,7 @@ void Span::addNumber(int num)
 {
 	if (this->_span.size() >= this->_n)
 		throw std::out_of_range("Out of bounds: there is no more space to add a number.");
-	this->_span.insert(num);
+	this->_span.push_back(num);
 }
 
 unsigned int  Span::getN(void) const
@@ -40,9 +40,9 @@ unsigned int  Span::getN(void) const
 
 long Span::shortestSpan(void)
 {
-	std::set<long>::iterator begin = this->_span.begin();
-	std::set<long>::iterator end = this->_span.end();
-	std::set<long>::iterator indx = begin;
+	std::vector<int>::iterator begin = this->_span.begin();
+	std::vector<int>::iterator end = this->_span.end();
+	std::vector<int>::iterator indx = begin;
 
 	if (this->_span.empty() || this->_span.size() < 2)
 		throw std::exception();
@@ -61,12 +61,36 @@ long Span::shortestSpan(void)
 	return (dist);
 }
 
+void Span::addNumbers(unsigned int start, unsigned int end)
+{
+
+	if (start > end)
+		throw std::out_of_range("Out of bounds: end can't be smaller than end.");
+	std::vector<int>::iterator begin = this->_span.begin() + start;
+	std::vector<int>::iterator end = this->_span.begin() + end;
+	unsigned int indx = 0;
+	unsigned int range = end - start;
+
+	while (begin != end && ++indx <= range)
+	{
+		try
+		{
+			this->addNumber(std::rand());
+		}
+		catch(std::exception &e)
+		{
+			std::cout << e.what() << ": Impossible to add more numbers." << std::endl;
+		}
+		begin++;
+	}
+}
+
 long Span::longestSpan(void)
 {
 	long dist = 0;
-	std::set<long>::iterator begin = this->_span.begin();
-	std::set<long>::iterator end = this->_span.end();
-	std::set<long>::iterator indx = begin;
+	std::vector<int>::iterator begin = this->_span.begin();
+	std::vector<int>::iterator end = this->_span.end();
+	std::vector<int>::iterator indx = begin;
 
 	if (this->_span.empty() || this->_span.size() < 2)
 		throw std::exception();
