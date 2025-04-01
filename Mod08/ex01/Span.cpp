@@ -65,13 +65,11 @@ void Span::addNumbers(unsigned int start, unsigned int end)
 {
 
 	if (start > end)
-		throw std::out_of_range("Out of bounds: end can't be smaller than end.");
-	std::vector<int>::iterator begin = this->_span.begin() + start;
-	std::vector<int>::iterator end = this->_span.begin() + end;
+		throw std::out_of_range("Out of bounds: end can't be smaller than start.");
 	unsigned int indx = 0;
 	unsigned int range = end - start;
 
-	while (begin != end && ++indx <= range)
+	while (indx < range)
 	{
 		try
 		{
@@ -81,7 +79,7 @@ void Span::addNumbers(unsigned int start, unsigned int end)
 		{
 			std::cout << e.what() << ": Impossible to add more numbers." << std::endl;
 		}
-		begin++;
+		indx++;
 	}
 }
 
@@ -100,8 +98,8 @@ long Span::longestSpan(void)
 		indx = begin;
 		while (indx != end)
 		{
-			if (dist < std::abs(*indx - *begin))
-				dist = std::abs(*indx - *begin); 
+			if (dist < std::abs(static_cast<long>(*indx) - static_cast<long>(*begin)))
+				dist = std::abs(static_cast<long>(*indx) - static_cast<long>(*begin)); 
 			indx++;
 		}
 		begin++;
