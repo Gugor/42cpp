@@ -17,7 +17,7 @@ CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
 INCS		:= MutantStack.hpp
-SRCS		:= main.cpp MutantStack.cpp
+SRCS		:= main.cpp 
 OBJS		:= $(SRCS:.cpp=.o)
 
 all: $(NAME)

@@ -2,86 +2,59 @@
 # define MUTANTSTACK_H 
 
 # include <iostream>
+# include <stack>
 # include <deque>
+# include <iterator>
 
-/*
-(constructor)
-    Construct stack (public member function)
-
-empty
-    Test whether container is empty (public member function)
-
-size
-    Return size (public member function)
-
-top
-    Access next element (public member function)
-
-push
-    Insert element (public member function)
-
-emplace
-    Construct and insert element (public member function)
-
-pop
-    Remove top element (public member function)
-
-swap 
-
-*/
-
-template<typename T, typename Container = std::deque<T> >
-class MutantStack
+template< typename T, typename Container = std::deque<T> >
+class MutantStack : public std::stack<T, Container>
 {
 	public:
 		MutantStack(void);
 		MutantStack(const MutantStack<T, Container> &other);
 		MutantStack(const Container &other);
-		MutantStack &operator=(const Container &mutantstack);
+		MutantStack &operator=(const MutantStack &other);
 		~MutantStack(void);
-		std::string getName(void) const; 
 
-		bool empty(void);
-		size_t size(void);
-		T top(void);
-		void push(T element);
-		void emplace(T element);
-		void pop(void);
-		void swap(T element);
-	private:
-		std::stack<T, Container> _stack;
+		typedef typename std::stack<T, Container>::container_type::iterator iterator;
+		iterator begin(void);
+		iterator end(void);	
 };
 
-template<typename T, typename Container = std::deque<T>>
-MutantStack(void){}
+template< typename T, typename Container >
+MutantStack<T, Container>::MutantStack(void) : std::stack<T, Container>(){}
 
 
-template<typename T, typename Container = std::deque<T>>
-MutantStack(const MutantStack<T, Container> &other)
+template< typename T, typename Container >
+MutantStack<T, Container>::MutantStack(const MutantStack &other) : std::stack<T, Container>(other){}
+
+template< typename T, typename Container >
+MutantStack<T, Container>::MutantStack(const Container &other) : std::stack<T, Container>(other){}
+
+template< typename T, typename Container >
+MutantStack<T, Container> &MutantStack<T, Container>::operator=(const MutantStack &other)
 {
-	this->stack<T, Container> = other;
+	if (this != &other) {
+            std::stack<T, Container>::operator=(other);
+        }
+	return(*this);
 }
 
-template<typename T, typename Container = std::deque<T>>
-MutantStack(const Container &other)
+template< typename T, typename Container >
+MutantStack<T, Container>::~MutantStack(void){}
+
+template< typename T, typename Container >
+typename MutantStack<T, Container>::iterator
+MutantStack<T, Container>::begin(void)
 {
-	this->stack<T, Container>(other);
+	return (this->c.begin());
 }
 
-template<typename T, typename Container = std::deque<T>>
-MutantStack &operator=(const Container &mutantstack)
+template< typename T, typename Container >
+typename MutantStack<T, Container>::iterator
+MutantStack<T, Container>::end(void)
 {
-	if (*this != other)
-	{
-		this->_stack(mutantstack);
-	}
-	return (*this);
-}
-
-template<typename T, typename Container = std::deque<T>>
-bool empty(void)
-{
-
+	return (this->c.end());
 }
 
 #endif
