@@ -40,6 +40,30 @@ unsigned int  Span::getN(void) const
 
 long Span::shortestSpan(void)
 {
+	if (this->_span.empty() || this->_span.size() < 2)
+		throw std::length_error("Length Error: Not enough data");
+
+	std::sort(this->_span.begin(), this->_span.end());
+
+	std::vector<int>::iterator begin = this->_span.begin();
+	std::vector<int>::iterator end = this->_span.end();
+	std::vector<int>::iterator indx = begin;
+	long dist = std::abs(*begin - *(indx + 1));
+
+	while (begin != end)
+	{
+		++indx;
+		if (dist > std::abs(*indx - *begin))
+			dist = std::abs(*indx - *begin); 
+		++begin;
+	}
+
+	return (dist);
+}
+
+/*
+long Span::shortestSpan(void)
+{
 	std::vector<int>::iterator begin = this->_span.begin();
 	std::vector<int>::iterator end = this->_span.end();
 	std::vector<int>::iterator indx = begin;
@@ -60,6 +84,7 @@ long Span::shortestSpan(void)
 	}
 	return (dist);
 }
+*/
 
 void Span::addNumbers(unsigned int start, unsigned int end)
 {
@@ -85,6 +110,16 @@ void Span::addNumbers(unsigned int start, unsigned int end)
 
 long Span::longestSpan(void)
 {
+	if (this->_span.empty() || this->_span.size() < 2)
+		throw std::length_error("Length Error: Not enough data");
+	std::vector<int>::iterator min = std::min_element(this->_span.begin(), this->_span.end());
+	std::vector<int>::iterator max = std::max_element(this->_span.begin(), this->_span.end());
+	return (static_cast<long>(*max) - static_cast<long>(*min));
+}
+
+/*
+long Span::longestSpan(void)
+{
 	long dist = 0;
 	std::vector<int>::iterator begin = this->_span.begin();
 	std::vector<int>::iterator end = this->_span.end();
@@ -106,3 +141,4 @@ long Span::longestSpan(void)
 	}
 	return (dist);
 }
+*/

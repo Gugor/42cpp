@@ -4,6 +4,7 @@
 # include <iostream>
 # include <vector>
 # include <cstdlib>
+# include <algorithm>
 # include <cmath>
 
 class Span
@@ -22,7 +23,6 @@ class Span
 	private:
 		unsigned int _n;
 		std::vector<int> _span;
-
 };
 
 #endif
