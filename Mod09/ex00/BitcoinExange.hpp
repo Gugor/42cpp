@@ -19,6 +19,7 @@ class BitcoinExange
 		BitcoinExange &operator=(const BitcoinExange &bitcoinexange);
 		~BitcoinExange(void);
 		const std::map<std::time_t, float> getEntries(void) const; 
+		const std::string &getBDPath(void) const;
 		void fetchEntries(const std::string &entriesFile);
 		void printEntries(void);
 
@@ -29,17 +30,19 @@ class BitcoinExange
 				virtual const char *what(void) const throw();
 				virtual ~WrongEntryFileFormatException(void) throw();
 			protected:
-				std::string _msg;
+				char *_msg;
 		};
 
 
 	private:
 		BitcoinExange(void);
 		typedef std::map<std::time_t, float> InputDB;
+		typedef std::map<std::string, float> RawInputDB;
 		InputDB _entries;
-		std::string bd;
+		RawInputDB _rawentries;
+		std::string _bd;
 		void extractAndInsertEntry(std::string &line);
-		std::time_t getDate(std::string line, std::size_t separator);
+		std::time_t getDate(std::string line, std::size_t separator, std::string &out);
 		float getAmount(std::string line, std::size_t separator);
 		float findExangeRate(std::time_t time);
 };

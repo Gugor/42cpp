@@ -1,6 +1,24 @@
 #include "BitcoinExange.hpp"
 
-BitcoinExange::BitcoinExange(void){}
+
+BitcoinExange::BitcoinExange(const std::string bd)
+{
+	this->_bd = bd;
+}
+
+BitcoinExange::BitcoinExange(const BitcoinExange &other)
+{
+	*this = other;
+}
+
+BitcoinExange &BitcoinExange::operator=(const BitcoinExange &other)
+{
+	if (this != &other)
+	{
+		this->_entries = other.getEntries();
+	}
+	return (*this);
+}
 
 BitcoinExange::~BitcoinExange(void){}
 
@@ -11,12 +29,17 @@ const std::map<std::time_t, float> BitcoinExange::getEntries(void) const
 
 BitcoinExange::WrongEntryFileFormatException::WrongEntryFileFormatException(const std::string msg)
 {                              
-        this->_msg = msg;      
+        this->_msg = strdup(std::string("Error: ").append(msg).c_str());      
 }                              
                                
 const char *BitcoinExange::WrongEntryFileFormatException::what(void) const throw()
 {                              
-        return (std::string("Error: ").append(this->_msg).c_str());
+        return (this->_msg);
+}                              
+
+BitcoinExange::WrongEntryFileFormatException::~WrongEntryFileFormatException(void) throw()
+{
+	delete this->_msg;
 }                              
                                
 unsigned char unisspace(unsigned char ch)
@@ -30,31 +53,52 @@ void trim(std::string s)
         s.erase(std::find_if(s.rbegin(), s.rend(), &unisspace).base(), s.end());       
 }                              
 
-std::time_t BitcoinExange::getDate(std::string line, std::size_t separator)
+/*
+int check_year(std::string y, struct tm date)
+{
+	int year = static_cast<int>(std::strtol(rawDate.substr(0,4).c_str(), &end, 10)) - 1900;
+	char *end;
+
+	end = NULL;
+	errno = 0;
+        if (errno != 0 || *end != '\0' || year < 1900)
+		return (1)
+	dateTime.tm_year = year - 1900;
+	return (0);
+}
+
+int check_mon(std::string y, struct tm date)
+{
+	int mon = static_cast<int>(std::strtol(rawDate.substr(0,4).c_str(), &end, 10)) - 1900;
+	char *end;
+
+	end = NULL;
+	errno = 0;
+	
+        if (errno != 0 || *end != '\0' || mon > 31)
+		return (1);
+	dateTime.tm_mon = mon - 1900;
+	return (0);
+}
+*/
+
+
+std::time_t BitcoinExange::getDate(std::string line, std::size_t separator, std::string &out)
 {
         std::string rawDate;  
-	struct tm dateTime;
-	std::time_t date;
-	char *end;
+	struct tm dateTime = {};
+//	std::time_t date;
+
 
         rawDate = line.substr(0, separator - 1);
         trim(rawDate);         
-	end = NULL;
-	errno = 0;
-	dateTime.tm_year = std::strtof(rawDate.substr(0,4).c_str(), &end);
-        if (errno == ERANGE || *end != '-')
+	out = rawDate;
+	if (!strptime(rawDate.c_str(), "%Y-%m-%d", &dateTime))
+	{
                 throw WrongEntryFileFormatException(std::string("bad input =>").append(rawDate));
-	errno = 0;
-	dateTime.tm_mon = std::strtof(rawDate.substr(5,2).c_str(), &end);
-        if (errno == ERANGE || *end != '-')
-                throw WrongEntryFileFormatException(std::string("bad input =>").append(rawDate));
-	errno = 0;
-	dateTime.tm_mday = std::strtof(rawDate.substr(8,2).c_str(), &end);
-        if (errno == ERANGE || *end != '\0')
-                throw WrongEntryFileFormatException(std::string("bad input =>").append(rawDate));
-	date = mktime(&dateTime);	
+	}
 
-	return (date);
+	return (mktime(&dateTime));
 }
 
 float BitcoinExange::getAmount(std::string line, std::size_t separator)
@@ -64,6 +108,7 @@ float BitcoinExange::getAmount(std::string line, std::size_t separator)
 
         rawAmount = line.substr(separator + 1);
         trim(rawAmount);         
+	std::cout << "RawAmount: " << rawAmount << std::endl;
 
         float amount = std::strtof(rawAmount.c_str(), &end);
         if (*end != '\0')
@@ -81,16 +126,29 @@ void BitcoinExange::extractAndInsertEntry(std::string &line)
         std::size_t separator = 0;
 	std::time_t date;
 	float	amount;
+	std::string rawDate;
                                
         separator = line.find(ENTRY_SEPARATOR);
 
         if (separator == std::string::npos)
                throw WrongEntryFileFormatException("no separator");
 
-	date = getDate(line, separator);
+	date = getDate(line, separator, rawDate);
 	amount = getAmount(line, separator);
+	std::cout << amount << std::endl;
                                
         this->_entries.insert(std::pair<std::time_t, float>(date, amount));
+        this->_rawentries.insert(std::pair<std::string, float>(rawDate, amount));
+}
+
+int skipSpaces(std::string &line)
+{
+	size_t indx = 0;
+	while (std::isspace(line[0]))
+	{
+		indx++;
+	}
+	return (indx);
 }
 
 void BitcoinExange::fetchEntries(const std::string &entriesFile)
@@ -102,9 +160,10 @@ void BitcoinExange::fetchEntries(const std::string &entriesFile)
 	fdFile.open(entriesFile.c_str());
 	if (!fdFile)
                throw WrongEntryFileFormatException("could not open file");
-	
+	std::getline(fdFile, line);
         while(std::getline(fdFile, line))
         {
+		skipSpaces(line);
 		try
 		{
 		    this->extractAndInsertEntry(line);
@@ -117,18 +176,16 @@ void BitcoinExange::fetchEntries(const std::string &entriesFile)
 	fdFile.close();
 }
 
-/*
-    std::ifstream file("Read.txt");
-    std::string str;
-    while (std::getline(file, str))
-    {
-        // Process str
-    }
-*/
-
-void printEntry(std::time_t t, float a)
+void printEntry(const std::time_t &t, float a)
 {
-	std::cout << t << " => " << a << std::endl;
+	char buffer[11];
+	struct tm *timeinfo;
+	time_t time = t;
+	
+	std::time (&time);
+	timeinfo = std::localtime(&time);
+	std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", timeinfo);
+	std::cout << std::string(buffer) << " => " << a << std::endl;
 }
 
 void BitcoinExange::printEntries(void)
