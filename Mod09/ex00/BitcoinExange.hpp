@@ -10,6 +10,7 @@
 # include <exception>
 
 #define ENTRY_SEPARATOR "|"
+#define DB_SEPARATOR ","
 
 class BitcoinExange
 {
@@ -20,8 +21,10 @@ class BitcoinExange
 		~BitcoinExange(void);
 		const std::map<std::time_t, float> getEntries(void) const; 
 		const std::string &getBDPath(void) const;
-		void fetchEntries(const std::string &entriesFile);
+		void fetchEntries(const std::string &input);
+		void fetchDB(void);
 		void printEntries(void);
+		void printDB(void);
 
 		class WrongEntryFileFormatException : public std::exception
 		{
@@ -37,11 +40,14 @@ class BitcoinExange
 	private:
 		BitcoinExange(void);
 		typedef std::map<std::time_t, float> InputDB;
-		typedef std::map<std::string, float> RawInputDB;
+		typedef std::map<std::string, std::string> RawInputDB;
+		typedef std::map<std::string, std::string> RawDB;
 		InputDB _entries;
 		RawInputDB _rawentries;
-		std::string _bd;
+		RawDB _rawDB;
+		std::string _entriesPath;
 		void extractAndInsertEntry(std::string &line);
+		void extractAndInsertDBField(std::string &line);
 		std::time_t getDate(std::string line, std::size_t separator, std::string &out);
 		float getAmount(std::string line, std::size_t separator);
 		float findExangeRate(std::time_t time);

@@ -14,7 +14,7 @@ CC		:= c++
 GCC		:= g++
 CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -std=c++98
-DEBFLAGS	:= -g -fsanitize=address -fPIE
+DEBFLAGS	:= -g -fsanitize=address
 
 INCS		:= BitcoinExange.hpp
 SRCS		:= main.cpp BitcoinExange.cpp

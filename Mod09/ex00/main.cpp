@@ -14,9 +14,11 @@ int main (int ac, char **av)
 	try
 	{
 		bitcoinexange.fetchEntries("input.txt");
+		//bitcoinexange.fetchDB("data.csv");
 	}
 	catch (std::exception &e) { std::cerr << e.what() << std::endl;}
 
 	bitcoinexange.printEntries();
+	//bitcoinexange.printDB();
 	return (0);
 }
