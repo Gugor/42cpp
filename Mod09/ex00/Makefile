@@ -16,8 +16,8 @@ CFLAGS		:= -Wall -Wextra -Werror
 CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
-INCS		:= BitcoinExange.hpp
-SRCS		:= main.cpp BitcoinExange.cpp
+INCS		:= BitcoinExchange.hpp
+SRCS		:= main.cpp BitcoinExchange.cpp
 OBJS		:= $(SRCS:.cpp=.o)
 
 all: $(NAME)
