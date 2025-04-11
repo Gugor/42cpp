@@ -1,5 +1,5 @@
-#ifndef BITCOINEXANGE_H 
-# define BITCOINEXANGE_H 
+#ifndef BITCOINEXCHANGE_H 
+# define BITCOINEXCHANGE_H 
 
 # include <iostream>
 # include <ctime>
@@ -12,17 +12,18 @@
 #define ENTRY_SEPARATOR "|"
 #define DB_SEPARATOR ","
 
-class BitcoinExange
+class BitcoinExchange
 {
 	public:
-		BitcoinExange(const std::string bd);
-		BitcoinExange(const BitcoinExange &other);
-		BitcoinExange &operator=(const BitcoinExange &bitcoinexange);
-		~BitcoinExange(void);
-		const std::map<std::time_t, float> getEntries(void) const; 
-		const std::string &getBDPath(void) const;
+		BitcoinExchange(const std::string bd);
+		BitcoinExchange(const BitcoinExchange &other);
+		BitcoinExchange &operator=(const BitcoinExchange &bitcoinexange);
+		~BitcoinExchange(void);
+		const std::map<std::string, std::string> getEntries(void) const; 
+		const std::string &getDBPath(void) const;
 		void fetchEntries(const std::string &input);
 		void fetchDB(void);
+		void showExchangeRates(void);
 		void printEntries(void);
 		void printDB(void);
 
@@ -38,19 +39,18 @@ class BitcoinExange
 
 
 	private:
-		BitcoinExange(void);
+		BitcoinExchange(void);
 		typedef std::map<std::time_t, float> InputDB;
 		typedef std::map<std::string, std::string> RawInputDB;
 		typedef std::map<std::string, std::string> RawDB;
-		InputDB _entries;
 		RawInputDB _rawentries;
 		RawDB _rawDB;
-		std::string _entriesPath;
+		std::string _dbPath;
 		void extractAndInsertEntry(std::string &line);
 		void extractAndInsertDBField(std::string &line);
-		std::time_t getDate(std::string line, std::size_t separator, std::string &out);
-		float getAmount(std::string line, std::size_t separator);
-		float findExangeRate(std::time_t time);
+		std::time_t getDate(std::string line);
+		float getAmount(std::string line);
+		float findExchangeRate(std::time_t time);
 };
 
 #endif

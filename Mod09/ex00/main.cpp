@@ -19,9 +19,11 @@ int main (int ac, char **av)
 		btc.fetchEntries(std::string(av[1]));
 	}
 	catch (std::exception &e) { std::cerr << e.what() << std::endl;}
+	btc.printEntries();
+	std::cout << "Show Exchange Rates" << std::endl;
 	btc.showExchangeRates();
 
-	bitcoinexange.printEntries();
+	//bitcoinexange.printEntries();
 	//bitcoinexange.printDB();
 	return (0);
 }
