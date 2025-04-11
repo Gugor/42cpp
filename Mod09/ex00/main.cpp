@@ -2,6 +2,7 @@
 #include <iomanip>
 
 #define DB_PATH "data.csv"
+#define DB_WRONG_HEADER_PATH "data-wrong-header.csv"
 
 int main (int ac, char **av)
 {

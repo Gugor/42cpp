@@ -10,7 +10,16 @@
 # include <exception>
 
 #define ENTRY_SEPARATOR "|"
+#define ENTRY_HEADER_FILE "date | value"
 #define DB_SEPARATOR ","
+#define DB_HEADER_FILE "date,exchange_rate"
+
+typedef struct btc_key 
+{
+	struct tm date;
+	std::time_t time;
+	std::string err_msg;
+}	t_key;
 
 class BitcoinExchange
 {
@@ -41,7 +50,8 @@ class BitcoinExchange
 	private:
 		BitcoinExchange(void);
 		typedef std::map<std::time_t, float> InputDB;
-		typedef std::map<std::string, std::string> RawInputDB;
+	//	typedef std::map<std::string, std::string> RawInputDB;
+		typedef std::map<t_key, float> RawInputDB;
 		typedef std::map<std::string, std::string> RawDB;
 		RawInputDB _rawentries;
 		RawDB _rawDB;
@@ -49,6 +59,7 @@ class BitcoinExchange
 		void extractAndInsertEntry(std::string &line);
 		void extractAndInsertDBField(std::string &line);
 		std::time_t getDate(std::string line);
+		t_key setKey(std::string line);
 		float getAmount(std::string line);
 		float findExchangeRate(std::time_t time);
 };
