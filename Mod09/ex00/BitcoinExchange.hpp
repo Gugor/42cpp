@@ -14,21 +14,22 @@
 #define DB_SEPARATOR ","
 #define DB_HEADER_FILE "date,exchange_rate"
 
-typedef struct btc_key 
+typedef struct btc_date 
 {
 	struct tm date;
 	std::time_t time;
 	std::string err_msg;
-}	t_key;
+}	t_date;
 
 class BitcoinExchange
 {
 	public:
+		typedef std::map<t_date, float> InputDB;
 		BitcoinExchange(const std::string bd);
 		BitcoinExchange(const BitcoinExchange &other);
 		BitcoinExchange &operator=(const BitcoinExchange &bitcoinexange);
 		~BitcoinExchange(void);
-		const std::map<std::string, std::string> getEntries(void) const; 
+		const InputDB getEntries(void) const; 
 		const std::string &getDBPath(void) const;
 		void fetchEntries(const std::string &input);
 		void fetchDB(void);
@@ -49,20 +50,21 @@ class BitcoinExchange
 
 	private:
 		BitcoinExchange(void);
-		typedef std::map<std::time_t, float> InputDB;
 	//	typedef std::map<std::string, std::string> RawInputDB;
-		typedef std::map<t_key, float> RawInputDB;
-		typedef std::map<std::string, std::string> RawDB;
-		RawInputDB _rawentries;
-		RawDB _rawDB;
+		//typedef std::map<std::string, std::string> RawDB;
+		InputDB _rawentries;
+		InputDB _rawDB;
 		std::string _dbPath;
 		void extractAndInsertEntry(std::string &line);
 		void extractAndInsertDBField(std::string &line);
-		std::time_t getDate(std::string line);
-		t_key setKey(std::string line);
+		//std::time_t getDate(std::string line);
+		t_date setDate(std::string line);
 		float getAmount(std::string line);
 		float findExchangeRate(std::time_t time);
 };
+
+std::ostream &operator<<(std::ostream &cout, const t_date &date);
+bool operator<(const t_date &k1, const t_date &k2);
 
 #endif
 

@@ -41,17 +41,23 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 	return (*this);
 }
 
-bool BitcoinExchange::operator<(const t_key k1, const t_key k2)
+std::ostream &operator<<(std::ostream &cout, const t_date &date)
+{
+	cout << date.date.tm_year << "-" << date.date.tm_year << "-" << date.date.tm_year;
+	return (cout);
+}
+
+bool operator<(const t_date &k1, const t_date &k2)
 {
 	if (k1.time < k2.time)
-		return (true)
+		return (true);
 	else
 		return (false);
 }
 
 BitcoinExchange::~BitcoinExchange(void){}
 
-const std::map<std::string, std::string> BitcoinExchange::getEntries(void) const
+const BitcoinExchange::InputDB BitcoinExchange::getEntries(void) const
 {
 	return (this->_rawentries);
 }
@@ -103,10 +109,9 @@ void BitcoinExchange::extractAndInsertEntry(std::string &line)
 		rawAmount = line.substr(separator + 1);
         trim(rawAmount);         
 
-	t_key key = setKey(rawDate);
-	this->_rawentries.insert(std::pair<t_key, float>(key, BitcoinExchange::getAmount(rawAmount)));
-//	this->_rawentries.insert(std::pair<std::string, std::string>(rawDate, rawAmount));
-	//std::cout << "Parsed: " << rawDate << "|=> " << rawAmount << std::endl;  
+	t_date date = setDate(rawDate);
+	this->_rawentries.insert(std::pair<t_date, float>(date, BitcoinExchange::getAmount(rawAmount)));
+	std::cout << "Parsed: " << rawDate << "|=> " << rawAmount << std::endl;  
 	std::cout << "++ Check Insetion ++" << std::endl;
 	this->printEntries();
 } 
@@ -185,9 +190,9 @@ void BitcoinExchange::extractAndInsertDBField(std::string &line)
 	trim(rawDate);         
 	rawAmount = line.substr(separator + 1);
 	trim(rawAmount);         
-
-        this->_rawDB.insert(std::pair<std::string, std::string>(rawDate, rawAmount));
-	//std::cout << "Parsed: " << rawDate << "|=> " << rawAmount << std::endl;  
+	t_date date = setDate(rawDate);
+	std::cout << "Parsed: " << date.date.tm_year << "|=> " << rawAmount << std::endl;  
+    this->_rawDB.insert(std::pair<t_date, float>(date, BitcoinExchange::getAmount(rawAmount)));
 }
 
 void BitcoinExchange::fetchDB(void)
@@ -236,36 +241,45 @@ void BitcoinExchange::fetchDB(void)
 	}
 	fdFile.close();
 }
-t_key BitcoinExchange::setKey(std::string rawDate)
+
+bool checkStrDate(std::string rawDate)
+{
+	int indx = -1;
+	if (rawDate.empty())
+		return (false);
+	while(rawDate[++indx])
+	{
+		if (!std::isdigit(rawDate[indx] && rawDate[indx] != '-'))
+				return (false);
+	}
+	return (true);
+}
+
+t_date BitcoinExchange::setDate(std::string rawDate)
 {
 	struct tm dateTime = {};
-	t_key key = {};
+	t_date date = {};
 
 	trim(rawDate);         
+	if (!checkStrDate(rawDate))
+	{
+		date.err_msg = std::string("bad input => ").append(rawDate);
+		return (date);
+	}
+
 	if (!strptime(rawDate.c_str(), "%Y-%m-%d", &dateTime))
 	{
-		key.err_msg = std::string("bad input => ").append(rawDate);	
-                //throw BitcoinExchange::WrongEntryFileFormatException(std::string("bad input => ").append(rawDate));
+		date.err_msg = std::string("bad input => ").append(rawDate);	
 	}
 	else
 	{
-		key.date = dateTime;
-		key.time = maketime(dateTime);
+		date.date = dateTime;
+		date.time = std::mktime(&dateTime);
 	}
-	return (key);
+	std::cout << "	!!! " <<date.date.tm_year << std::endl;
+	return (date);
 }
 
-std::time_t BitcoinExchange::getDate(std::string rawDate)
-{
-	struct tm dateTime = {};
-
-	trim(rawDate);         
-	if (!strptime(rawDate.c_str(), "%Y-%m-%d", &dateTime))
-	{
-                //throw BitcoinExchange::WrongEntryFileFormatException(std::string("bad input => ").append(rawDate));
-	}
-	return (mktime(dateTime));
-}
 
 float BitcoinExchange::getAmount(std::string rawAmount)
 {
@@ -286,32 +300,32 @@ float BitcoinExchange::getAmount(std::string rawAmount)
 
 float BitcoinExchange::findExchangeRate(std::time_t date)
 {
-	RawDB::iterator begin = this->_rawDB.begin();
-	RawDB::iterator end = this->_rawDB.end();
+	BitcoinExchange::InputDB::iterator begin = this->_rawDB.begin();
+	BitcoinExchange::InputDB::iterator end = this->_rawDB.end();
 	std::time_t dbdate;
-	std::time_t closest = this->getDate(begin->first);
+	std::time_t closest = begin->first.time;
 	std::time_t	dist = 0;
 	std::time_t	prevdist = std::abs(closest - date) + 1;
 	float		rate = 0;
 
 	while (begin != end)
 	{
-		dbdate = this->getDate(begin->first);	
+		dbdate = begin->first.time;	
 		dist = std::abs(date - dbdate);
 		if (dist == 0)
-			return (this->getAmount(begin->second));
+			return (begin->second);
 		if (prevdist == dist)
 		{
 			if (closest < dbdate)
 			{
 				closest = dbdate; 
-				rate = this->getAmount(begin->second);
+				rate = begin->second;
 			}
 		}
 		else if (prevdist > dist)
 		{
 			prevdist = dist;
-			rate = this->getAmount(begin->second);
+			rate = begin->second;
 			closest = dbdate;
 		}
 		begin++;
@@ -321,39 +335,36 @@ float BitcoinExchange::findExchangeRate(std::time_t date)
 
 void BitcoinExchange::showExchangeRates(void)
 {
-	RawInputDB::reverse_iterator begin = this->_rawentries.rbegin();
-	RawInputDB::reverse_iterator end = this->_rawentries.rend();
+	BitcoinExchange::InputDB::reverse_iterator begin = this->_rawentries.rbegin();
+	BitcoinExchange::InputDB::reverse_iterator end = this->_rawentries.rend();
 
-	time_t date = 0;
-	float amount = 0;
+	//time_t date = 0;
+	//float amount = 0;
 
 	while (begin != end)
 	{
 		std::cout << "Show Exchange: " << begin->first << "|" << begin->second << std::endl;
-		try 
-		{
-			date = BitcoinExchange::getDate(begin->first);
-			amount = BitcoinExchange::getAmount(begin->second);
-			std::cout << begin->first << " => " << amount * this->findExchangeRate(date) << std::endl;
-		}
-		catch(std::exception &e)
-		{
-			std::cerr << e.what() << std::endl;
-		}
+		//	date = BitcoinExchange::getDate(begin->first);
+		//	amount = BitcoinExchange::getAmount(begin->second);
+			if (begin->first.err_msg.empty())	
+				std::cout << begin->first << " => " << (begin->second * this->findExchangeRate(begin->first.time)) << std::endl;
+			else
+				throw BitcoinExchange::WrongEntryFileFormatException(begin->first.err_msg);
+				
 		begin++;
 	}
 }
 
 
-void printEntry(const std::string &t, std::string a)
+void printEntry(const t_date &t, float a)
 {
 	std::cout << t << " => " << a << std::endl;
 }
 
 void BitcoinExchange::printEntries(void)
 {
-	std::map<std::string, std::string>::reverse_iterator begin = this->_rawentries.rbegin();
-	std::map<std::string, std::string>::reverse_iterator end = this->_rawentries.rend();
+	BitcoinExchange::InputDB::reverse_iterator begin = this->_rawentries.rbegin();
+	BitcoinExchange::InputDB::reverse_iterator end = this->_rawentries.rend();
 
 	while(begin != end)
 	{
@@ -365,8 +376,8 @@ void BitcoinExchange::printEntries(void)
 
 void BitcoinExchange::printDB(void)
 {
-	std::map<std::string, std::string>::iterator begin = this->_rawDB.begin();
-	std::map<std::string, std::string>::iterator end = this->_rawDB.end();
+	BitcoinExchange::InputDB::iterator begin = this->_rawDB.begin();
+	BitcoinExchange::InputDB::iterator end = this->_rawDB.end();
 
 	while(begin != end)
 	{
