@@ -58,7 +58,7 @@ class BitcoinExchange
 		void extractAndInsertEntry(std::string &line);
 		void extractAndInsertDBField(std::string &line);
 		//std::time_t getDate(std::string line);
-		t_date setDate(std::string line);
+		t_date setDate(std::string &line);
 		float getAmount(std::string line);
 		float findExchangeRate(std::time_t time);
 };

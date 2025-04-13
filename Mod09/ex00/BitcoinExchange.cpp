@@ -43,7 +43,22 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 
 std::ostream &operator<<(std::ostream &cout, const t_date &date)
 {
-	cout << date.date.tm_year << "-" << date.date.tm_year << "-" << date.date.tm_year;
+	struct tm * timeinfo;
+  	char buffer[80];
+
+	if (!date.err_msg.empty())
+	{
+		cout << date.err_msg; 
+		return (cout);
+	}
+
+	time_t t = date.time;
+  	std::time(&t);
+  	timeinfo = std::localtime(&t);
+
+	strftime(buffer,sizeof(buffer),"%Y-%m-%d",timeinfo);
+	std::string str(buffer);
+	cout << str;
 	return (cout);
 }
 
@@ -111,9 +126,7 @@ void BitcoinExchange::extractAndInsertEntry(std::string &line)
 
 	t_date date = setDate(rawDate);
 	this->_rawentries.insert(std::pair<t_date, float>(date, BitcoinExchange::getAmount(rawAmount)));
-	std::cout << "Parsed: " << rawDate << "|=> " << rawAmount << std::endl;  
-	std::cout << "++ Check Insetion ++" << std::endl;
-	this->printEntries();
+	//this->printEntries();
 } 
 
 
@@ -133,7 +146,6 @@ void BitcoinExchange::fetchEntries(const std::string &input)
 	std::ifstream fdFile;
 
 
-	std::cout << input << std::endl;
 	this->_rawentries.clear();
 	fdFile.open(input.c_str());
 	if (!fdFile.is_open())
@@ -145,14 +157,13 @@ void BitcoinExchange::fetchEntries(const std::string &input)
 	std::getline(fdFile, line);
 	if (line.empty())
 	{
-               throw WrongEntryFileFormatException("empty file");
-	       exit (1);
+			throw WrongEntryFileFormatException("empty file");
+			exit (1);
 	}
 
 	trim(line);
 	if (line != ENTRY_HEADER_FILE)
 	{
-		std::cout << "Fetch Input error:" << line << std::endl;
 		throw WrongEntryFileFormatException("wrong header file");
 		exit (1);
 	}
@@ -170,7 +181,6 @@ void BitcoinExchange::fetchEntries(const std::string &input)
 		{
 			std::cerr << e.what() << std::endl;
 		}
-		std::cout << "RAW LINE:" << line << std::endl;
 	}
 	fdFile.close();
 }
@@ -191,7 +201,6 @@ void BitcoinExchange::extractAndInsertDBField(std::string &line)
 	rawAmount = line.substr(separator + 1);
 	trim(rawAmount);         
 	t_date date = setDate(rawDate);
-	std::cout << "Parsed: " << date.date.tm_year << "|=> " << rawAmount << std::endl;  
     this->_rawDB.insert(std::pair<t_date, float>(date, BitcoinExchange::getAmount(rawAmount)));
 }
 
@@ -242,20 +251,20 @@ void BitcoinExchange::fetchDB(void)
 	fdFile.close();
 }
 
-bool checkStrDate(std::string rawDate)
+bool checkStrDate(std::string &rawDate)
 {
 	int indx = -1;
 	if (rawDate.empty())
 		return (false);
 	while(rawDate[++indx])
 	{
-		if (!std::isdigit(rawDate[indx] && rawDate[indx] != '-'))
+		if (!std::isdigit(rawDate[indx]) && rawDate[indx] != '-')
 				return (false);
 	}
 	return (true);
 }
 
-t_date BitcoinExchange::setDate(std::string rawDate)
+t_date BitcoinExchange::setDate(std::string &rawDate)
 {
 	struct tm dateTime = {};
 	t_date date = {};
@@ -276,7 +285,6 @@ t_date BitcoinExchange::setDate(std::string rawDate)
 		date.date = dateTime;
 		date.time = std::mktime(&dateTime);
 	}
-	std::cout << "	!!! " <<date.date.tm_year << std::endl;
 	return (date);
 }
 
@@ -338,14 +346,10 @@ void BitcoinExchange::showExchangeRates(void)
 	BitcoinExchange::InputDB::reverse_iterator begin = this->_rawentries.rbegin();
 	BitcoinExchange::InputDB::reverse_iterator end = this->_rawentries.rend();
 
-	//time_t date = 0;
-	//float amount = 0;
 
 	while (begin != end)
 	{
-		std::cout << "Show Exchange: " << begin->first << "|" << begin->second << std::endl;
-		//	date = BitcoinExchange::getDate(begin->first);
-		//	amount = BitcoinExchange::getAmount(begin->second);
+		std::cout << "Show Exchange: " << begin->first << " | " << begin->second << std::endl;
 			if (begin->first.err_msg.empty())	
 				std::cout << begin->first << " => " << (begin->second * this->findExchangeRate(begin->first.time)) << std::endl;
 			else
@@ -358,7 +362,10 @@ void BitcoinExchange::showExchangeRates(void)
 
 void printEntry(const t_date &t, float a)
 {
-	std::cout << t << " => " << a << std::endl;
+	if (t.err_msg.empty())
+		std::cout << t << " => " << a << std::endl;
+	else
+		std::cout << t << std::endl;
 }
 
 void BitcoinExchange::printEntries(void)
