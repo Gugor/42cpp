@@ -33,9 +33,6 @@ class BitcoinExchange
 		const std::string &getDBPath(void) const;
 		void fetchEntries(const std::string &input);
 		void fetchDB(void);
-		void showExchangeRates(void);
-		void printEntries(void);
-		void printDB(void);
 
 		class WrongEntryFileFormatException : public std::exception
 		{
@@ -50,17 +47,14 @@ class BitcoinExchange
 
 	private:
 		BitcoinExchange(void);
-	//	typedef std::map<std::string, std::string> RawInputDB;
-		//typedef std::map<std::string, std::string> RawDB;
 		InputDB _rawentries;
 		InputDB _rawDB;
 		std::string _dbPath;
 		void extractAndInsertEntry(std::string &line);
 		void extractAndInsertDBField(std::string &line);
-		//std::time_t getDate(std::string line);
 		t_date setDate(std::string &line);
 		float getAmount(std::string line);
-		float findExchangeRate(std::time_t time);
+		float findExchangeRate(t_date &date);
 };
 
 std::ostream &operator<<(std::ostream &cout, const t_date &date);
