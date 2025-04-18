@@ -9,12 +9,12 @@ int main (int ac, char **av)
 	}
 	
 	std::string str(av[1]);
+
 	try
 	{
-		RPN	rpn(str);
+		std::cout << setOperators(str) << std::endl;
 	}
 	catch (std::exception &e) { std::cout << e.what() << std::endl;}
-
 
 	return (0);
 }
