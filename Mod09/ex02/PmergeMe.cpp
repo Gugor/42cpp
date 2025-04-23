@@ -65,69 +65,59 @@ void PmergeMe::printSubSeq(void)
 	std::cout << std::endl;
 }
 
-
-void PmergeMe::fordJhonson(std::deque<int> &input)
+size_t PmergeMe::jacobsthal(size_t num)
 {
+	return (round((pow(2, num + 1) + pow(-1, num)) / 3));
+}
+
+
+
+std::deque<int> mergeInsertion(std::deque<int> &chain)
+{
+	if (chain.size() <= 1)
+		return (chain);
+
+	std::deque<int>::iterator begin = chain.begin();
+	std::deque<int>::iterator end = chain.end();
+
 	std::deque<int> main;
 	std::deque<int> pend;
-	for (int i = 0; i < len / 2; i += 2)
-	{	
-		if (input[i] > input[i + 1])
-			std::swap(input[i], input[i + 1]);
+	std::deque<int> leftover;
 
-		main.push_back(input[i]);
-		pend.push_back(input[i + 1]);
-	}	
+	//We obtain left over in case chain is odd
+	if (chain.size() % 2 == 1)
+		leftover.insert(chain.end() - 1);
 
-	mergeSort(main, 0, main.size());
-	//createJacobsthal();
-	//_seq = main;
-	//insertSort(pend, _seq);
-	//main.clear();
-	//pend.clear();
-
-}
-
-void merge(vector<int>& arr, int left, int mid, int right)
-{
-    int n1 = mid - left + 1;
-	int n2 = right - mid; 
-
-	std::deque<int> L(n1);
-	std::deque<int> R(n2);
-
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = arr[mid + 1 + j];
-
-    int i = 0, j = 0, k = left;
-
-    while (i < n1 && j < n2)
+	//We get main chain filled with bigest numbers from pairs
+	while (begin < end)
 	{
-        if (L[i] <= R[j])
+		if ((*begin) >= (*begin + 1))
 		{
-            arr[k] = L[i];
-            i++;
-        }
+			main.insert(begin);	
+			pend.insert((begin + 1));
+		}
 		else
 		{
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
+			main.insert((begin + 1));	
+			pend.insert(begin);
+		}
+		begin += 2;
+	}
+	chain.clear();
+
+	//We check main is still a pair and insert pend into it if needed
+	/*if (main.size() <= 1)
+	{
+		main = this->_insertionSearch(pend, main);
+		return (main);
+	}*/
+
+	//If still numbers in main we restart the process
+	this->mergeInsertion(main);
+	//When no more to sort in main we insert leftover and pend
+	main = this->insertionSearch(leftover, main);
+	main = this->insertionSearch(pend, main);
+
+	return (main);
 }
-
-void PmergeMe::mergeSort(std::deque<int>& seq, int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2; 
-
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-
-        merge(arr, left, mid, right);
-    }
-}
-
 

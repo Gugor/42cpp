@@ -15,6 +15,7 @@ class PmergeMe
 		PmergeMe(int ac, char **av);
 		~PmergeMe(void);
 		void mergeSort(std::deque<int> &nums, int left, int right);
+		std::deque<int> mergeInsertion(std::deque<int> &chain);
 		void fordJhonson(std::deque<int> &input);
 		void printSeq(void);
 		void printSubSeq(void);
