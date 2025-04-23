@@ -12,9 +12,6 @@ int main (int ac, char **av)
 	{
 		av++;
 		PmergeMe	pmergeme(ac - 1, av);
-		std::deque<int> seq = pmergeme.getSeq();
-		std::deque<int>::iterator end = seq.end();
-		pmergeme.mergeSort(seq, end, seq.size());
 	}
 	catch(std::exception &e) {std::cerr << e.what() << std::endl;}
 

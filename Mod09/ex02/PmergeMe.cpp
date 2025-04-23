@@ -3,6 +3,10 @@
 PmergeMe::PmergeMe(int ac, char **av)
 {
 	this->_setSeq(ac, av);
+	this->_seq = this->mergeInsertion(this->_seq);
+	std::cout << "After: ";
+	this->printSeq();
+	std::cout << std::endl;
 }
 
 PmergeMe::~PmergeMe(void){}
@@ -65,18 +69,59 @@ void PmergeMe::printSubSeq(void)
 	std::cout << std::endl;
 }
 
-size_t PmergeMe::jacobsthal(size_t num)
+std::deque<int> PmergeMe::_jacobsthal(size_t num)
 {
-	return (round((pow(2, num + 1) + pow(-1, num)) / 3));
+	std::deque<int> jc;
+
+	for (size_t i = 0; i < num; i++)
+	{
+
+		jc.push_back(round((pow(2, i + 1) + pow(-1, i)) / 3));
+		std::cout << "Jacobstal: " << jc[i] << std::endl;
+	}
+
+	return (jc);
 }
 
-
-
-std::deque<int> mergeInsertion(std::deque<int> &chain)
+void PmergeMe::_insertionSort(std::deque<int> &from, std::deque<int> &into)
 {
+	std::cout << "Insertion " << std::endl;
+	if (from.size() <= 0)
+		return ;
+
+	std::cout << "From size:  " << from.size() << std::endl;
+	std::deque<int> jc = this->_jacobsthal(from.size());
+	std::cout << "Jc size: " << jc.size() << std::endl;
+	size_t indx = from.size();
+
+	while (indx > 0)
+	{
+		std::deque<int>::iterator begin = into.begin();
+		std::deque<int>::iterator end = into.end();
+
+		while (begin != end)
+		{
+			std::cout << "Jc extraction: " << jc[indx] << std::endl;
+			std::cout << "From extraction: " << from[jc[indx]] << std::endl;
+			if (from[jc[--indx]] < (*begin))
+			{
+				into.insert(begin, from[jc[indx]]);
+				begin++;
+				break;
+			}
+			begin++;
+		}
+	}
+	from.clear();
+}
+
+std::deque<int> PmergeMe::mergeInsertion(std::deque<int> &chain)
+{
+	std::cout << "Seq size: " << chain.size() << "|" << chain[0] << std::endl;
 	if (chain.size() <= 1)
 		return (chain);
 
+	static int lvl = 0;
 	std::deque<int>::iterator begin = chain.begin();
 	std::deque<int>::iterator end = chain.end();
 
@@ -84,39 +129,44 @@ std::deque<int> mergeInsertion(std::deque<int> &chain)
 	std::deque<int> pend;
 	std::deque<int> leftover;
 
+	std::cout << "Level " << lvl << std::endl;
 	//We obtain left over in case chain is odd
 	if (chain.size() % 2 == 1)
-		leftover.insert(chain.end() - 1);
+		leftover.push_back((*(end - 1)));
 
 	//We get main chain filled with bigest numbers from pairs
-	while (begin < end)
+	for (int dist = chain.size() / 2; dist > 0; dist--)
 	{
-		if ((*begin) >= (*begin + 1))
+		std::cout << "Dist " << dist << "Pairs: " << (*begin) << "|" << (*(begin + 1)) << std::endl;
+		if ((*begin) >= (*(begin + 1)))
 		{
-			main.insert(begin);	
-			pend.insert((begin + 1));
+			main.push_back(*begin);	
+			pend.push_back((*(begin + 1)));
 		}
 		else
 		{
-			main.insert((begin + 1));	
-			pend.insert(begin);
+			main.push_back((*(begin + 1)));	
+			pend.push_back(*begin);
 		}
 		begin += 2;
+		dist = end - begin;
 	}
 	chain.clear();
 
-	//We check main is still a pair and insert pend into it if needed
-	/*if (main.size() <= 1)
-	{
-		main = this->_insertionSearch(pend, main);
-		return (main);
-	}*/
-
 	//If still numbers in main we restart the process
-	this->mergeInsertion(main);
+	lvl++;
+	main = this->mergeInsertion(main);
+	for (size_t i = 0; i < main.size(); i++)
+		std::cout << "Main bi: " << main[i] << std::endl;
 	//When no more to sort in main we insert leftover and pend
-	main = this->insertionSearch(leftover, main);
-	main = this->insertionSearch(pend, main);
+	/*if (!leftover.empty())
+	{
+		std::cout << "Left over: " << leftover.size() << "|" << leftover[0] << std::endl;
+		this->_insertionSort(leftover, main);
+	}a*/
+	std::cout << "Main size: " << main.size() << "|" << main[0] << std::endl;
+	std::cout << "Pena : " << pend.size() << "|" << pend[0] << std::endl;
+	this->_insertionSort(pend, main);
 
 	return (main);
 }
