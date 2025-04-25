@@ -72,12 +72,15 @@ void PmergeMe::printSubSeq(void)
 std::deque<int> PmergeMe::_jacobsthal(size_t num)
 {
 	std::deque<int> jc;
+	if (num > 4)
+		num = 4;
 
-	for (size_t i = 0; i < num; i++)
+	jc.push_back(0);
+	for (size_t i = 1; i < num; i++)
 	{
 
 		jc.push_back(round((pow(2, i + 1) + pow(-1, i)) / 3));
-		std::cout << "Jacobstal: " << jc[i] << std::endl;
+		std::cout << "\t:: Jacobstal: " << jc[i] << std::endl;
 	}
 
 	return (jc);
@@ -85,43 +88,60 @@ std::deque<int> PmergeMe::_jacobsthal(size_t num)
 
 void PmergeMe::_insertionSort(std::deque<int> &from, std::deque<int> &into)
 {
-	std::cout << "Insertion " << std::endl;
+	std::cout << "&& Insertion " << std::endl;
 	if (from.size() <= 0)
 		return ;
 
 	std::cout << "From size:  " << from.size() << std::endl;
-	std::deque<int> jc = this->_jacobsthal(from.size());
-	std::cout << "Jc size: " << jc.size() << std::endl;
-	size_t indx = from.size();
+	size_t indx = 0;
+	//size_t jc_indx = 0;
 
-	while (indx > 0)
+	while (indx < from.size())
 	{
 		std::deque<int>::iterator begin = into.begin();
 		std::deque<int>::iterator end = into.end();
 
+		std::deque<int> jc = this->_jacobsthal((from.size()));
+		std::cout << "Jc size: " << jc.size() << std::endl;
 		while (begin != end)
 		{
-			std::cout << "Jc extraction: " << jc[indx] << std::endl;
-			std::cout << "From extraction: " << from[jc[indx]] << std::endl;
-			if (from[jc[--indx]] < (*begin))
+			//std::cout << "Jc extraction: " << jc[indx] << std::endl;
+			//std::cout << "From extraction: " << from[jc[indx]] << std::endl;
+		
+			/*jc_indx = jc.size() - indx;
+			if (from[jc[jc_indx]] < (*begin))
 			{
-				into.insert(begin, from[jc[indx]]);
+				into.insert(begin, from[jc[jc_indx]]);
+				begin++;
+				break;
+			}
+			*/
+			if (from[indx] <= (*begin))
+			{
+				into.insert(begin, from[indx]);
 				begin++;
 				break;
 			}
 			begin++;
 		}
+		indx++;
 	}
 	from.clear();
 }
 
 std::deque<int> PmergeMe::mergeInsertion(std::deque<int> &chain)
 {
-	std::cout << "Seq size: " << chain.size() << "|" << chain[0] << std::endl;
+	std::cout << "Seq size: " << chain.size() << " |=> ";
+	for (size_t i = 0; i < chain.size(); i++)
+		std::cout << chain[i] << " ";
+	std::cout << std::endl;
 	if (chain.size() <= 1)
+	{
+		std::cout << "	END REACHED | size = " << chain.size() << " | "<< chain[0] << std::endl;
 		return (chain);
+	}
 
-	static int lvl = 0;
+	static int lvl = 1;
 	std::deque<int>::iterator begin = chain.begin();
 	std::deque<int>::iterator end = chain.end();
 
@@ -129,7 +149,7 @@ std::deque<int> PmergeMe::mergeInsertion(std::deque<int> &chain)
 	std::deque<int> pend;
 	std::deque<int> leftover;
 
-	std::cout << "Level " << lvl << std::endl;
+	std::cout << "== MERGE Level " << lvl << std::endl;
 	//We obtain left over in case chain is odd
 	if (chain.size() % 2 == 1)
 		leftover.push_back((*(end - 1)));
@@ -156,17 +176,23 @@ std::deque<int> PmergeMe::mergeInsertion(std::deque<int> &chain)
 	//If still numbers in main we restart the process
 	lvl++;
 	main = this->mergeInsertion(main);
-	for (size_t i = 0; i < main.size(); i++)
-		std::cout << "Main bi: " << main[i] << std::endl;
+	std::cout << "== INSERT Level " << --lvl << std::endl;
 	//When no more to sort in main we insert leftover and pend
 	/*if (!leftover.empty())
 	{
 		std::cout << "Left over: " << leftover.size() << "|" << leftover[0] << std::endl;
 		this->_insertionSort(leftover, main);
 	}a*/
-	std::cout << "Main size: " << main.size() << "|" << main[0] << std::endl;
-	std::cout << "Pena : " << pend.size() << "|" << pend[0] << std::endl;
+	std::cout << " Main size: " << main.size() << "|=> ";
+	for (size_t i = 0; i < main.size(); i++)
+		std::cout << main[i] << " ";
+	std::cout << std::endl;
+	std::cout << " Pend size: " << pend.size() << "|=> ";
+	for (size_t i = 0; i < pend.size(); i++)
+		std::cout << pend[i] << " ";
+	std::cout << std::endl;
 	this->_insertionSort(pend, main);
+	this->_insertionSort(leftover, main);
 
 	return (main);
 }
