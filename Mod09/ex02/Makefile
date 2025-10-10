@@ -8,11 +8,11 @@ CYAN            := \033[1;36m
 WHITE           := \033[1;37m
 RESET           := \033[1;0m
 
-NAME 		:= pmergeme
-NAME_DEB 	:= pmergeme_deb
-CC		:= c++
-GCC		:= g++
-CFLAGS		:= -Wall -Wextra -Werror
+NAME 		:= PmergeMe
+NAME_DEB 	:= PmergeMe_deb
+CC			:= c++
+GCC			:= g++
+CFLAGS		:= -Wall -Wextra -Werror -I.
 CPPFLAGS	:= -std=c++98
 DEBFLAGS	:= -g -fsanitize=address
 
