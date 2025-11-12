@@ -16,13 +16,20 @@ int main (int ac, char * av[])
 	PmergeMe::startTimer();
 	std::cout << "Before: ";
 	PmergeMe::printNums("deque", PmergeMe::getDeque());
-	app.sortDeque();
+	app.mergeInsertion();
+	PmergeMe::printTime("deque");
 	std::cout << "After: ";
 	PmergeMe::printNums("deque", PmergeMe::getDeque());
-	PmergeMe::printTime("deque");
+  std::cout << "Total comparissons: " << PmergeMe::_comparissons << std::endl;
 
+  PmergeMe::_comparissons = 0;
 	PmergeMe::startTimer();
-	PmergeMe::printNums("list", PmergeMe::getDeque());
-	PmergeMe::printTime("list");
+	std::cout << "Before: ";
+	PmergeMe::printNums("vector", PmergeMe::_vector);
+	PmergeMe::printTime("vector");
+	app.mergeInsertionvector();
+	std::cout << "After: ";
+	PmergeMe::printNums("vector", PmergeMe::_vector);
+  std::cout << "Total comparissons: " << PmergeMe::_comparissons << std::endl;
 	return (0);
 }
