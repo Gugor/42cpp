@@ -1,6 +1,8 @@
 #include "PmergeMe.hpp"
 #include <iomanip>
 #include <complex>
+#include <cerrno>  // for errno and ERANGE
+
 
 
 std::deque<size_t> PmergeMe::_deque;
