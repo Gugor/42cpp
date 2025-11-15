@@ -147,6 +147,20 @@ void BitcoinExchange::extractAndInsertEntry(std::string &line)
 		std::cout << date.err_msg << std::endl;
 } 
 
+bool checkStrDate(std::string &rawDate)
+{
+	int indx = -1;
+	if (rawDate.empty())
+		return (false);
+	while(rawDate[++indx])
+	{
+		if (!std::isdigit(rawDate[indx]) && rawDate[indx] != '-')
+				return (false);
+	}
+	return (true);
+}
+
+
 
 size_t skipSpaces(std::string &line)
 {
@@ -202,7 +216,7 @@ void BitcoinExchange::fetchEntries(const std::string &input)
 
 void BitcoinExchange::extractAndInsertDBField(std::string &line)
 {                              
-        std::size_t separator = 0;
+  std::size_t separator = 0;
 	std::string rawDate;
 	std::string rawAmount;
 	float amount = 0;
@@ -214,6 +228,8 @@ void BitcoinExchange::extractAndInsertDBField(std::string &line)
 
 	rawDate = line.substr(0, separator);
 	trim(rawDate);         
+  if (!checkStrDate(rawDate))
+      throw WrongEntryFileFormatException("corrupted DB");
 	rawAmount = line.substr(separator + 1);
 	trim(rawAmount);         
 	t_date date = setDate(rawDate);	
@@ -236,21 +252,21 @@ void BitcoinExchange::fetchDB(void)
 	fdFile.open(this->_dbPath.c_str());
 	if (!fdFile.is_open())
 	{
-               throw WrongEntryFileFormatException("could not open DB file");
+         throw WrongEntryFileFormatException("could not open DB file");
 	       exit(1);
 	}
 
 	std::getline(fdFile, line);
 	if (line.empty())
 	{
-               throw WrongEntryFileFormatException("empty file");
+         throw WrongEntryFileFormatException("empty file or worng DB format");
 	       exit(1);
 	}
 
 	trim(line);
 	if (line != DB_HEADER_FILE)
 	{
-               throw WrongEntryFileFormatException("wrong header file");
+         throw WrongEntryFileFormatException("wrong header file");
 	       exit(1);
 	}
 
@@ -268,19 +284,6 @@ void BitcoinExchange::fetchDB(void)
 		}
 	}
 	fdFile.close();
-}
-
-bool checkStrDate(std::string &rawDate)
-{
-	int indx = -1;
-	if (rawDate.empty())
-		return (false);
-	while(rawDate[++indx])
-	{
-		if (!std::isdigit(rawDate[indx]) && rawDate[indx] != '-')
-				return (false);
-	}
-	return (true);
 }
 
 t_date BitcoinExchange::setDate(std::string &rawDate)
