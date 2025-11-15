@@ -28,7 +28,7 @@ void calculate(std::stack<int> &ops, char oper)
 		case '*': ops.push(op2 * op1); break;
 		case '/': 
 				  if (op1 == 0 || op2 == 0)
-					throw std::invalid_argument("Error: division by 0");
+            throw std::invalid_argument("Error: division by 0");
 				  ops.push(op2 / op1); break;
 		default: throw std::invalid_argument("Error: operator unknown");
 	}
@@ -43,7 +43,7 @@ int setOperators(std::string &operators)
 	while(getline(str, line, ' '))
 	{
 		if (line.size() != 1)
-			throw std::invalid_argument("Error: invalid argument");
+			throw std::invalid_argument("Error: invalid argument. > 9");
 		if (isOperator(line[0]))
 			calculate(ops, line[0]);
 		else if (std::isdigit(line[0]))

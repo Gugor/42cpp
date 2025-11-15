@@ -7,6 +7,12 @@ int main (int ac, char **av)
 		std::cerr << "No arguments" << std::endl;
 		return (0);
 	}
+  if (ac > 2)
+  {
+    std::cerr << "Error: invalid argument" << std::endl;
+    std::cout << "USAGE ./rpn \"1 1 + 2 *\">" << std::endl;
+    exit(0);
+  }
 	
 	std::string str(av[1]);
 
