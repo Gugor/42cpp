@@ -223,6 +223,9 @@ void BitcoinExchange::extractAndInsertDBField(std::string &line)
                                
 
 	separator = line.find(DB_SEPARATOR);
+	if (line.empty())
+	      throw WrongEntryFileFormatException("incorrect DB formating. Empty lines");
+
 	if (separator == std::string::npos)
 		   throw WrongEntryFileFormatException("no separator");
 
